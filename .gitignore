@@ -1,0 +1,43 @@
+/vendor/
+/node_modules/
+.env
+.env.*
+.phpunit.result.cache
+.phpunit.cache
+Homestead.yaml
+Homestead.json
+npm-debug.log
+yarn-error.log
+storage/*.key
+storage/oauth-private.key
+storage/oauth-public.key
+storage/pail/
+storage/*.log
+storage/debugbar/
+storage/framework/cache/**
+storage/framework/sessions/**
+storage/framework/views/**
+storage/logs/**
+storage/app/public/*
+public/storage
+public/hot
+public/build
+
+# IDE
+/.idea/
+/.vscode/
+/.nova/
+/.fleet/
+/.zed/
+.phpactor.json
+/auth.json
+
+# Laravel Sail
+docker-compose.override.yml
+
+# Laravel Forge
+.env.backup
+
+# Mac / Linux / Windows системные файлы
+.DS_Store
+Thumbs.db
