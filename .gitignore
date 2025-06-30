@@ -18,7 +18,6 @@ storage/framework/cache/**
 storage/framework/sessions/**
 storage/framework/views/**
 storage/logs/**
-storage/app/public/*
 public/storage
 public/hot
 public/build
