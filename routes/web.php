@@ -4,5 +4,5 @@ use App\Http\Controllers\DishController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DishController::class, 'index']);
-Route::get('dish/{id}', [DishController::class, 'show']);
+Route::get('dish/{dish}', [DishController::class, 'show']);
 
