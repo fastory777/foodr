@@ -6,11 +6,18 @@
                 <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">View our selection of delish dishes</h1>
             </div>
             <div class="flex flex-wrap -m-4">
+                <!-- loading -->
                 <h1 class="text-3xl" v-if="loading">Loading...</h1>
 
+                <!-- fail message if loading is over, but dishes are not loaded -->
                 <p v-if="!loading && dishes.length === 0" class="text-red-400 text-bold">Something went horribly horribly wrong.</p>
 
-                <Dish v-for="dish in dishes" :key="dish" :dish="dish" />
+                <!-- dishes list -->
+                <Dish
+                    v-for="dish in dishes"
+                    :key="dish"
+                    :dish="dish"
+                />
             </div>
         </div>
     </section>

@@ -20,22 +20,26 @@ export default {
 
     data() {
         return {
-            loading: false,
+            loading: false, // pokazivayet loading
             dishes: [], // dishes from server
         }
     },
 
     mounted() {
-        this.loading = true;
+        this.loading = true; // start loading a
 
         fetch('api/dishes') // get zapros k laravel po adresu
             .then(res => res.json()) // kogda poluchen otvet delat ego v json
             .then(({data}) => {
                 this.dishes = data; // sohranyaem poluchenniye bluda v peremennuyu "dishes"
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err);
+                this.dishes = []; // if there are no dishes
+            })
+
             .finally(() => {
-                this.loading = false;
+                this.loading = false; // disable loading anyways
             });
     }
 }
