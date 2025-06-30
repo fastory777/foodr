@@ -2,12 +2,12 @@
 import {defineComponent} from 'vue'
 
 export default defineComponent({
-name: "ThemeToggle"
+    name: "ThemeToggle"
 })
 </script>
 
 <template>
-  $END$
+
 </template>
 
 <style scoped>

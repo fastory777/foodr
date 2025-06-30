@@ -1,35 +1,30 @@
 <template>
     <div class="p-4 md:w-1/3">
-        <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
-            <div class="flex items-center mb-3">
-                <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
-                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                    </svg>
-                </div>
-                <h2 class="text-gray-900 text-lg title-font font-medium">{{ dish.name }}</h2>
-            </div>
+        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
+            <img
+                v-if="dish.image_url"
+                :src="dish.image_url"
+                alt=""
+                class="w-full h-48 object-cover"
+            />
 
-            <div class="flex-grow">
-                <p class="leading-relaxed text-base">{{ dish.description }}</p>
+            <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    {{ dish.name }}
+                </h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                    {{ dish.description }}
+                </p>
 
-                <img
-                    v-if="dish.image_url"
-                    :src="dish.image_url"
-                    alt="dish image"
-                    class="rounded-xl w-full h-auto object-cover mb-4"
-                />
-
-                <ul class="my-4 text-sm text-gray-500">
-                    <li v-for="ingredient in dish.ingredients">
+                <ul class="mb-3 text-sm text-gray-700 dark:text-gray-400">
+                    <li v-for="ingredient in dish.ingredients" :key="ingredient.id">
                         • {{ ingredient.name }}
                     </li>
                 </ul>
 
-                <a class="mt-3 text-indigo-500 inline-flex items-center cursor-pointer">Learn More
-                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
-                        <path d="M5 12h14M12 5l7 7-7 7"></path>
-                    </svg>
+                <a href="#"
+                   class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Read more
                 </a>
             </div>
         </div>

@@ -1,14 +1,14 @@
 import './bootstrap';
 import { createApp } from 'vue';
 import App from './components/App.vue';
-import Header from './components/Header.vue';
-import Body from './components/Body.vue';
-import Footer from './components/Footer.vue';
+import Dishes from './components/Dishes.vue';
+import Dish from './components/Dish.vue';
 
-const app = createApp(App);
+// Create and mount the main app
+const app = createApp({});
 
-app.component('header', Header)
-    .component('body', Body)
-    .component('footer', Footer)
+app.component('dish', Dish)
+    .component('dishes', Dishes);
 
 app.mount('#app');
+

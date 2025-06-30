@@ -16,8 +16,10 @@ class DishResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
             'description' => $this->description,
             'image_url' => asset($this->image),
+            'ingredients' => IngredientResource::collection($this->whenLoaded('ingredients')),
         ];
     }
 }

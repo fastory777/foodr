@@ -19,6 +19,7 @@ class Dish extends Model
     protected $fillable = [
         'name',
         'description',
+        'image',
     ];
 
     /**
@@ -35,5 +36,9 @@ class Dish extends Model
     public function meal(): BelongsTo
     {
         return $this->belongsTo(Meal::class);
+    }
+
+    public function getImageUrlAttribute($value) {
+        return asset('storage/' . $value);
     }
 }

@@ -10,8 +10,6 @@ class DishController extends Controller
 {
     public function index()
     {
-        $dishes = Dish::with('ingredients')->get();
-
-        return DishResource::collection($dishes);
+        return DishResource::collection(Dish::all());
     }
 }

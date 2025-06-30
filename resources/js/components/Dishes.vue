@@ -5,7 +5,7 @@
                 <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">DISHES</h2>
                 <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">View our selection of delish dishes</h1>
             </div>
-            <div class="flex flex-wrap -m-4">
+            <div class="flex flex-wrap -m-4 mr-10 ml-10">
                 <!-- loading -->
                 <h1 class="text-3xl" v-if="loading">Loading...</h1>
 
@@ -15,7 +15,7 @@
                 <!-- dishes list -->
                 <Dish
                     v-for="dish in dishes"
-                    :key="dish"
+                    :key="dish.id || dish.name"
                     :dish="dish"
                 />
             </div>
@@ -27,8 +27,32 @@
 import Dish from './Dish.vue';
 
 export default {
-    name: 'Body',
+    name: 'Dishes',
     components: { Dish },
-    props: ['dishes', 'loading'], // from app.vue
+
+    data() {
+        return {
+            loading: false,
+            dishes: [],
+        }
+    },
+
+    mounted() {
+        this.loading = true;
+
+        fetch('api/dishes')
+            .then(res => res.json())
+            .then(({data}) => {
+                console.log('RECEIVED DATA:', data);
+                this.dishes = data;
+            })
+            .catch(err => {
+                console.log(err);
+                this.dishes = [];
+            })
+            .finally(() => {
+                this.loading = false;
+            });
+    }
 }
 </script>
