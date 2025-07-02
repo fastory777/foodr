@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: 'class', // manual theme control
     content: [
         './resources/**/*.blade.php',
         './resources/**/*.vue',
@@ -12,6 +13,5 @@ export default {
             },
         },
     },
-    darkMode: 'class', // manual theme control
     plugins: [],
 }

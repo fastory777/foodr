@@ -1,13 +1,13 @@
 <template>
     <Layout>
-        <section class="text-gray-600 body-font">
+        <section class="text-gray-600 body-font dark:text-gray-100">
             <div class="container px-5 py-24 mx-auto">
                 <Link href="/" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-                    <span class="mb-4 text-sm text-gray-500">← Back to All Dishes</span>
+                    <span class="mb-4 text-sm text-gray-500 dark:text-gray-300">← Back to All Dishes</span>
                 </Link>
                 <div class="flex flex-col text-center w-full mb-20">
-                    <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">DISH DETAILS</h2>
-                    <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">{{ dish.name }}</h1>
+                    <h2 class="text-xs text-indigo-500 dark:text-blue-400 tracking-widest font-medium title-font mb-1">DISH DETAILS</h2>
+                    <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 dark:text-gray-100">{{ dish.name }}</h1>
                 </div>
 
                 <!-- Code for showing a dish goes here -->
@@ -16,7 +16,7 @@
                 <div id="scroll-bar" class="fixed top-0 left-0 w-0 h-1 bg-blue-500 z-50"></div>
 
                 <div>
-                    <ul class="text-l font-medium mb-4 text-indigo-500">
+                    <ul class="text-l font-medium mb-4 text-indigo-500 dark:text-blue-400">
                         <li><a href="#overview" class="hover:underline">- Overview </a></li>
                         <li><a href="#ingredients" class="hover:underline">- Ingredients </a></li>
                         <li><a href="#preparation" class="hover:underline">- Preparation</a></li>
