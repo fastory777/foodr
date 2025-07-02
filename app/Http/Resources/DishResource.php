@@ -20,6 +20,7 @@ class DishResource extends JsonResource
             'description' => $this->description,
             'image_url' => asset($this->image),
             'ingredients' => IngredientResource::collection($this->whenLoaded('ingredients')),
+            'preparation_steps' => PreparationStepResource::collection($this->whenLoaded('preparationSteps')),
         ];
     }
 }

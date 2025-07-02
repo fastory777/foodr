@@ -38,6 +38,11 @@ class Dish extends Model
         return $this->belongsTo(Meal::class);
     }
 
+    public function preparationSteps()
+    {
+        return $this->hasMany(PreparationStep::class)->orderBy('step_number');
+    }
+
     public function getImageUrlAttribute($value) {
         return asset('storage/' . $value);
     }

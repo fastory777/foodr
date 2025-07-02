@@ -50,11 +50,15 @@ return new class extends Migration {
 
     public function down(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::dropIfExists('todo_items');
         Schema::dropIfExists('todo_lists');
         Schema::dropIfExists('ingredients');
         Schema::dropIfExists('dishes');
         Schema::dropIfExists('meals');
         Schema::dropIfExists('dish_ingredient');
+
+        Schema::enableForeignKeyConstraints();
     }
 };

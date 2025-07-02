@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             DishSeeder::class,
             TodoListSeeder::class,
             TodoItemSeeder::class,
+            PreparationStepSeeder::class,
         ]);
     }
 }

@@ -2,12 +2,12 @@
     <div class="flex flex-col body-font h-screen">
         <header class="text-gray-600">
             <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-                <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+                <Link href="/" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
                     <div class="rounded-full bg-indigo-500 p-2 text-white">
                         <Utensils />
                     </div>
                     <span class="ml-3 text-2xl brand-name">Foodr</span>
-                </a>
+                </Link>
                 <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
                     <Link href="/"
                           class="mr-5 hover:text-gray-900">All dishes

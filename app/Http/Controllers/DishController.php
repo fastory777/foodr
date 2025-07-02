@@ -15,6 +15,8 @@ class DishController extends Controller
 
     public function show(Dish $dish)
     {
+        $dish->load('ingredients', 'preparationSteps');
+
         return Inertia::render('Dishes/Show', [
             'dish' => (new DishResource($dish))->resolve(),
         ]);

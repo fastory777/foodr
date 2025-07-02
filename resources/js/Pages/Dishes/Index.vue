@@ -16,8 +16,8 @@
 
                     <div v-for="(dish, i) in dishes"
                          :key="i"
-                         class="p-4 md:w-1/3">
-                        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
+                         class="p-4 m-3"> <!-- md:w-1/3 -->
+                        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 overflow-hidden transition-transform duration-300 transform hover:scale-105 hover:shadow-xl">
                             <img
                                 v-if="dish.image_url"
                                 :src="dish.image_url"
@@ -49,12 +49,36 @@
                 </div>
             </div>
         </section>
+
+        <!-- Popup AI bot -->
+        <div
+            v-if="showPopup"
+            class="fixed bottom-6 right-6 z-50"
+        >
+            <div class="bg-white p-4 rounded-xl shadow-lg w-80 animate-slide-up relative border border-gray-200">
+                <button
+                    @click="showPopup = false"
+                    class="absolute top-2 right-3 text-gray-400 hover:text-black text-lg cursor-pointer"
+                >
+                    ✖
+                </button>
+                <img
+                    src="/storage/app/public/assets/chef.png"
+                    alt="Chef"
+                    class="w-90 mt-7"
+                />
+                <h2 class="text-xl font-bold mb-1">Tired of choosing a recipe?</h2>
+                <p class="text-base text-gray-600">Try our AI assistant — get a tasty dinner idea in seconds!</p>
+            </div>
+        </div>
+
     </Layout>
 </template>
 
 <script>
 import Layout from '../Layout.vue';
 import { Link } from '@inertiajs/vue3'
+import { onMounted, ref } from 'vue'
 
 export default {
     components: {
@@ -66,6 +90,7 @@ export default {
         return {
             loading: false,
             dishes: [],
+            showPopup: false,
         }
     },
 
@@ -74,7 +99,7 @@ export default {
 
         fetch('api/dishes')
             .then(res => res.json())
-            .then(({data}) => {
+            .then((data) => {
                 console.log('RECEIVED DATA:', data);
                 this.dishes = data;
             })
@@ -85,6 +110,26 @@ export default {
             .finally(() => {
                 this.loading = false;
             });
+
+        setTimeout(() => { this.showPopup = true; }, 3000)
     }
 }
 </script>
+
+<style>
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(300px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-slide-up {
+    animation: slideUp 0.8s ease-out;
+}
+
+</style>
