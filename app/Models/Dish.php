@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Dish extends Model
 {
-    use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -40,10 +38,14 @@ class Dish extends Model
 
     public function preparationSteps()
     {
-        return $this->hasMany(PreparationStep::class)->orderBy('step_number');
+        return $this->hasMany(PreparationStep::class);
     }
 
     public function getImageUrlAttribute($value) {
         return asset('storage/' . $value);
+    }
+
+    public function tips() {
+        return $this->hasMany(Tip::class);
     }
 }

@@ -8,6 +8,13 @@
                 <div class="flex flex-col text-center w-full mb-20">
                     <h2 class="text-xs text-indigo-500 dark:text-blue-400 tracking-widest font-medium title-font mb-1">DISH DETAILS</h2>
                     <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 dark:text-gray-100">{{ dish.name }}</h1>
+                    <div v-if="dish.image_url" class="w-full max-w-4xl mx-auto mb-8 mt-6 rounded-lg overflow-hidden shadow-md">
+                        <img
+                            :src="dish.image_url"
+                            alt="Image of {{ dish.name }}"
+                            class="w-full aspect-[3/2] object-cover"
+                        />
+                    </div>
                 </div>
 
                 <!-- Code for showing a dish goes here -->
@@ -49,9 +56,8 @@
                 </section>
 
                 <section id="tips-story" class="mb-8">
-                    <h2 class="text-xl font-bold mb-2">Tips & Story</h2>
+                    <h2 class="text-xl font-bold mb-2">Tips</h2>
                     <p>{{ dish.tips }}</p>
-                    <p class="mt-4">{{ dish.history }}</p>
                 </section>
 
 
@@ -60,6 +66,8 @@
                       class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Back to dishes
                 </Link>
+
+                <AiPopupBot :show="showPopup" @close="showPopup = false" />
             </div>
         </section>
     </Layout>
@@ -68,6 +76,7 @@
 <script>
 import Layout from '../Layout.vue';
 import { Link } from '@inertiajs/vue3';
+import AiPopupBot from "../components/AiPopupBot.vue"
 import { onMounted, onUnmounted } from 'vue'
 import {Utensils} from "lucide-vue-next";
 
@@ -75,9 +84,14 @@ export default {
     components: {
         Utensils,
         Layout,
-        Link
+        Link,
+        AiPopupBot,
     },
-
+    data() {
+        return {
+            showPopup: true,
+        }
+    },
     props: {
         dish: {
             type: Object,

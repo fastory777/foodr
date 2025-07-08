@@ -39,10 +39,10 @@
                                     </li>
                                 </ul>
 
-                                <Link :href="`/dish/${dish.id}`"
-                                      class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                <AButton :href="`/dish/${dish.id}`">
                                     Read more
-                                </Link>
+                                </AButton>
+
                             </div>
                         </div>
                     </div>
@@ -50,27 +50,7 @@
             </div>
         </section>
 
-        <!-- Popup AI bot -->
-        <div
-            v-if="showPopup"
-            class="fixed bottom-6 right-6 z-50"
-        >
-            <div class="bg-white p-4 rounded-xl shadow-lg w-80 animate-slide-up relative border border-gray-200">
-                <button
-                    @click="showPopup = false"
-                    class="absolute top-2 right-3 text-gray-400 hover:text-black text-lg cursor-pointer"
-                >
-                    ✖
-                </button>
-                <img
-                    src="/storage/app/public/assets/chef.png"
-                    alt="Chef"
-                    class="w-90 mt-7"
-                />
-                <h2 class="text-xl font-bold mb-1">Tired of choosing a recipe?</h2>
-                <p class="text-base text-gray-600">Try our AI assistant — get a tasty dinner idea in seconds!</p>
-            </div>
-        </div>
+        <AiPopupBot :show="showPopup" @close="showPopup = false" />>
 
     </Layout>
 </template>
@@ -78,12 +58,15 @@
 <script>
 import Layout from '../Layout.vue';
 import { Link } from '@inertiajs/vue3'
-import { onMounted, ref } from 'vue'
+import AButton from "../components/AButton.vue";
+import AiPopupBot from "../components/AiPopupBot.vue"
 
 export default {
     components: {
         Layout,
         Link,
+        AButton,
+        AiPopupBot,
     },
 
     data() {
@@ -93,7 +76,6 @@ export default {
             showPopup: false,
         }
     },
-
     mounted() {
         this.loading = true;
 
@@ -112,24 +94,12 @@ export default {
             });
 
         setTimeout(() => { this.showPopup = true; }, 3000)
+
+
+
     }
 }
 </script>
 
 <style>
-@keyframes slideUp {
-    from {
-        opacity: 1;
-        transform: translateY(300px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.animate-slide-up {
-    animation: slideUp 0.8s ease-out;
-}
-
 </style>

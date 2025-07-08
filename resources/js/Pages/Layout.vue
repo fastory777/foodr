@@ -17,17 +17,17 @@
                     <a class="mr-5 hover:text-gray-900 dark:hover:text-white">About Us</a>
                 </nav>
 
-                <p class="ml-4">{{ theme }}</p>
-
                 <!-- a possible switch button between themes (not working now)
                 <button @click="toggleTheme" class="p-2 rounded bg-indigo-500 text-white cursor-pointer">
                     <component :is="theme === 'dark' ? Moon : SunMedium" class="w-5 h-5" />
                 </button>
                 -->
 
-                <button
+
+                <Link
+                    :href="`/dish/create`"
                     class="inline-flex items-center bg-gray-100 dark:bg-gray-700 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-600 rounded text-base mt-4 md:mt-0 cursor-pointer dark:text-white">
-                    Upload
+                    New Dish
                     <svg fill="none"
                          stroke="currentColor"
                          stroke-linecap="round"
@@ -37,7 +37,7 @@
                          viewBox="0 0 24 24">
                         <path d="M5 12h14M12 5l7 7-7 7"></path>
                     </svg>
-                </button>
+                </Link>
             </div>
         </header>
 
@@ -48,7 +48,7 @@
         <footer class="text-gray-600 dark:text-gray-400">
             <div class="bg-gray-100 dark:bg-gray-800">
                 <div class="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
-                    <p class="text-gray-500 dark:text-gray-400 text-sm text-center sm:text-left">© 2020 Tailblocks</p>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm text-center sm:text-left">© 2025 Foodr</p>
 
                     <span class="inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start">
                     <a class="text-gray-500 dark:text-gray-400">
