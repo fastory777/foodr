@@ -37,10 +37,9 @@
                 type="button"
                 @click="isLast ? $emit('add') : $emit('remove')"
                 class="rounded-full text-white p-2"
-                :class="isLast ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'"
             >
-                <CirclePlus v-if="isLast" class="w-5 h-5" />
-                <CircleMinus v-else class="w-5 h-5" />
+                <CirclePlus v-if="isLast" class="w-6 h-6 cursor-pointer" />
+                <CircleMinus v-else class="w-6 h-6 cursor-pointer" />
             </button>
         </div>
     </div>

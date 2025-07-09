@@ -8,3 +8,5 @@ Route::get('/', [DishController::class, 'index'])->name('dishes.index');
 Route::get('dish/create', [DishController::class, 'create'])->name('dishes.create');
 Route::get('dish/{dish}', [DishController::class, 'show'])->name('dishes.show');
 Route::post('dish', [DishController::class, 'store'])->name('dishes.store');
+Route::get('dish/{dish}/edit', [DishController::class, 'edit'])->name('dishes.edit');
+Route::put('dish/{dish}', [DishController::class, 'update'])->name('dishes.update');

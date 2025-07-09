@@ -26,3 +26,26 @@ html {
 html, body {
     @apply bg-white text-black dark:bg-gray-900 dark:text-white;
 }
+
+.p-listbox {
+    border-color: #3e69f4 !important;
+}
+
+.p-inputwrapper-focus {
+    box-shadow: 0 0 0 1px #3e69f4 !important;
+    border-color: #3e69f4 !important;
+}
+
+.p-listbox .p-highlight {
+    background-color: #3e69f4 !important;
+    color: white !important;
+}
+
+.p-select-option-selected-color {
+    color: #3e69f4 !important;
+}
+
+.p-select-option-selected-focus-color {
+    color: #3e69f4 !important;
+}
+

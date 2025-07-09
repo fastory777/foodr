@@ -7,7 +7,6 @@
                 </h1>
 
                 <div class="max-w-xl">
-                    {{ form?.errors }}
                     <AInput
                         v-model="form.name"
                         name="name"
@@ -39,9 +38,10 @@
                         <ASelectWithCustom
                             v-for="(ingredient, index) in form.ingredients"
                             :key="index"
-                            v-model="form.ingredients[index]"
+                            :modelValue="ingredient"
                             :options="ingredientOptions"
                             :isLast="index === form.ingredients.length - 1"
+                            @update:modelValue="updateIngredient(index, $event)"
                             @add="addIngredient"
                             @remove="removeIngredient(index)"
                         />
@@ -68,11 +68,11 @@
                     />
 
                     <div class="flex py-5 gap-x-4 justify-end">
-                        <AButton class="bg-gray-200 text-blue-700 dark:bg-gray-200 dark:text-blue-700 " :href="`/`">
+                        <AButton class="bg-gray-200 text-indigo-500 dark:bg-gray-100 dark:text-indigo-500 dark:hover:bg-gray-200 dark:hover:text-indigo-600 focus:ring-indigo-500" :href="`/`">
                             Cancel
                         </AButton>
 
-                        <button type="submit" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-blue-700 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:bg-blue-800">
+                        <button type="submit" class="cursor-pointer inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-indigo-600 focus:ring-indigo-200 dark:bg-indigo-500 dark:hover:bg-indigo-600 dark:hover:text-gray-200 hover:bg-indigo-700">
                             Add Dish
                         </button>
                     </div>
@@ -106,6 +106,9 @@ export default {
         CircleMinus,
         CirclePlus,
     },
+    props: {
+        ingredients: Array
+    },
     data() {
         return {
             form: useForm({
@@ -117,16 +120,14 @@ export default {
                 tips: '',
                 history: '',
             }),
-            ingredientOptions: [
-                { label: 'Sugar', value: 1 },
-                { label: 'Salt', value: 2 },
-                { label: 'Pumpkin', value: 3 },
-            ],
+            ingredientOptions: this.ingredients.map(i => ({
+                label: i.name,
+                value: i.id,
+            })),
         };
     },
     methods: {
         submit() {
-            console.log('Ингредиенты:', JSON.stringify(this.form.ingredients, null, 2));
             this.form.post('/dish');
         },
         addIngredient() {
@@ -140,6 +141,9 @@ export default {
         },
         removeStep(index) {
             this.form.preparation_steps.splice(index, 1);
+        },
+        updateIngredient(index, newValue) {
+            this.form.ingredients.splice(index, 1, newValue);
         },
     }
 }

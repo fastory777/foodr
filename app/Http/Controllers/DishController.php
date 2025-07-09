@@ -30,12 +30,17 @@ class DishController extends Controller
 
     public function create()
     {
-        return Inertia::render('Dishes/Create');
+        $ingredients = Ingredient::orderBy('name')->get(['id', 'name']);
+
+        return Inertia::render('Dishes/Create', [
+            'ingredients' => $ingredients,
+        ]);
     }
 
     public function store(DishRequest $request)
     {
         $data = $request->all();
+
         // 1. Persist an image file to disk
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('dishes', 'public');
@@ -73,13 +78,41 @@ class DishController extends Controller
         return redirect()->route('dishes.index')->with('message', 'Dish created successfully.');
     }
 
-    public function edit()
+    public function edit(Dish $dish)
     {
-
+        $dish->load('ingredients', 'preparationSteps');
+        // Pass dish data and all linked ingredients to the Vue component
+        return Inertia::render('Dishes/Edit', [
+            'dish' => $dish,
+            'ingredients' => Ingredient::all(),
+        ]);
     }
 
-    public function update()
+    public function update(Dish $dish, DishRequest $request)
     {
+        // Validate data
+        $data = $request->validated();
+        // Update basic dish fields
+        $dish->update($data);
+        // reformat ingredients from the form into the pivot table
+        $ingredientData = collect($data['ingredients'] ?? [])
+            ->mapWithKeys(fn($i) => [
+                $i['id'] => [
+                    'amount' => $i['amount'],
+                    'unit' => $i['unit']
+                ]]);
 
+        // Sync ingredients in pivot table with the new values from the form
+        $dish->ingredients()->sync($ingredientData);
+
+        // Delete all old preparation steps before creating new ones
+        $dish->preparationSteps()->delete();
+
+        // Create each preparation step again from submitted data
+        foreach ($data['preparation_steps'] as $step) {
+            $dish->preparationSteps()->create($step);
+        }
+
+        return redirect()->route('dishes.index')->with('message', 'Dish updated successfully.');
     }
 }
