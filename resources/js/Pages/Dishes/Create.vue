@@ -26,7 +26,7 @@
                     <ATextArea
                         class="mb-4"
                         v-model="form.description"
-                        name="decription"
+                        name="description"
                         label="Description"
                         :error="form.errors?.description"
                         placeholder="Write about the dish here..."
@@ -68,11 +68,14 @@
                     />
 
                     <div class="flex py-5 gap-x-4 justify-end">
-                        <AButton class="bg-gray-200 text-indigo-500 dark:bg-gray-100 dark:text-indigo-500 dark:hover:bg-gray-200 dark:hover:text-indigo-600 focus:ring-indigo-500" :href="`/`">
+                        <AButton
+                            class="bg-gray-200 text-indigo-500 dark:bg-gray-100 dark:text-indigo-500 dark:hover:bg-gray-200 dark:hover:text-indigo-600 focus:ring-indigo-500"
+                            :href="`/`">
                             Cancel
                         </AButton>
 
-                        <button type="submit" class="cursor-pointer inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-indigo-600 focus:ring-indigo-200 dark:bg-indigo-500 dark:hover:bg-indigo-600 dark:hover:text-gray-200 hover:bg-indigo-700">
+                        <button type="submit"
+                                class="cursor-pointer inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-indigo-600 focus:ring-indigo-200 dark:bg-indigo-500 dark:hover:bg-indigo-600 dark:hover:text-gray-200 hover:bg-indigo-700">
                             Add Dish
                         </button>
                     </div>
@@ -83,8 +86,8 @@
 </template>
 
 <script>
-import { CircleMinus, CirclePlus } from 'lucide-vue-next';
-import { useForm } from '@inertiajs/vue3';
+import {CircleMinus, CirclePlus} from 'lucide-vue-next';
+import {useForm} from '@inertiajs/vue3';
 import Layout from '../Layout.vue';
 import AButton from "../components/AButton.vue";
 import AInput from "../components/AInput.vue";
@@ -115,10 +118,9 @@ export default {
                 name: '',
                 description: '',
                 image: null,
-                ingredients: [{ id: '', amount: '', unit: 'g' }],
-                preparation_steps: [{ instruction: '', image: null }],
+                ingredients: [{id: null, amount: '', unit: 'g'}],
+                preparation_steps: [{instruction: '', image: null}],
                 tips: '',
-                history: '',
             }),
             ingredientOptions: this.ingredients.map(i => ({
                 label: i.name,
@@ -131,13 +133,13 @@ export default {
             this.form.post('/dish');
         },
         addIngredient() {
-            this.form.ingredients.push({ id: null, amount: '', unit: 'g' });
+            this.form.ingredients.push({id: null, amount: '', unit: 'g'});
         },
         removeIngredient(index) {
             this.form.ingredients.splice(index, 1);
         },
         addStep() {
-            this.form.preparation_steps.push({ instruction: '', image: null });
+            this.form.preparation_steps.push({instruction: '', image: null});
         },
         removeStep(index) {
             this.form.preparation_steps.splice(index, 1);

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class DishRequest extends FormRequest
 {
@@ -13,8 +14,19 @@ class DishRequest extends FormRequest
 
     public function rules(): array
     {
+        $nameUniqueRule = Rule::unique('dishes', 'name');
+
+        if ($this->method() === 'put') {
+            $nameUniqueRule->ignore($this->dish);
+        }
+
         return [
-            'name' => 'required|min:3|max:255|unique:dishes,name',
+            'name' => [
+                'required',
+                'min:3',
+                'max:255',
+                Rule::unique('dishes', 'name'),
+            ],
             'description' => 'required|min:3|max:1024',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'ingredients' => 'required|array|min:1',

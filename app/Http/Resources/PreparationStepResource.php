@@ -17,7 +17,7 @@ class PreparationStepResource extends JsonResource
         return [
             'step_number' => $this->step_number,
             'instruction' => $this->instruction,
-            'image_path' => $this->image_path,
+            'image_path' => storage_path($this->image_path),
             'duration_minutes' => $this->duration_minutes,
         ];
     }

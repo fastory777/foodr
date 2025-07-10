@@ -7,9 +7,7 @@ use App\Http\Resources\DishResource;
 use App\Models\Dish;
 use App\Models\Ingredient;
 use App\Models\PreparationStep;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class DishController extends Controller
@@ -44,7 +42,7 @@ class DishController extends Controller
         // 1. Persist an image file to disk
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('dishes', 'public');
-            $data['image'] = 'storage/' . $path;
+            $data['image'] = $path;
         }
 
         // 2. Use persisted image's path and insert into $dish
@@ -64,23 +62,32 @@ class DishController extends Controller
             $preparationStep = new PreparationStep([
                 'dish_id' => $dish->id,
                 'instruction' => $step['instruction'],
+                'duration_minutes' => $step['duration_minutes'] ?? null,
+                'image_path' => $request->file("preparation_steps.$index.image") ? $request->file("preparation_steps.$index.image")->store('steps', 'public') : null,
             ]);
             // 5. Persist each preparation step's image to disk and store the path in $preparationStep
             if ($request->hasFile("preparation_steps.$index.image")) {
                 $path = $request->file("preparation_steps.$index.image")->store('steps', 'public');
-                $preparationStep->image_path = 'storage/' . $path;
+                $preparationStep->image_path = $path;
             }
 
             $preparationStep->save();
 
         }
+
         // * remember validation
         return redirect()->route('dishes.index')->with('message', 'Dish created successfully.');
     }
 
     public function edit(Dish $dish)
     {
-        $dish->load('ingredients', 'preparationSteps');
+        $dish->load([
+            'ingredients' => fn ($q) => $q->withPivot(['amount', 'unit']),
+            'preparationSteps',
+        ]);
+
+        \Log::info('Loaded steps:', $dish->preparationSteps->toArray());
+
         // Pass dish data and all linked ingredients to the Vue component
         return Inertia::render('Dishes/Edit', [
             'dish' => $dish,
@@ -96,11 +103,13 @@ class DishController extends Controller
         $dish->update($data);
         // reformat ingredients from the form into the pivot table
         $ingredientData = collect($data['ingredients'] ?? [])
-            ->mapWithKeys(fn($i) => [
+            ->mapWithKeys(fn ($i) => [
                 $i['id'] => [
                     'amount' => $i['amount'],
-                    'unit' => $i['unit']
+                    'unit' => $i['unit'],
                 ]]);
+
+        // Log::info('Ingredient data:', $ingredientData->all());
 
         // Sync ingredients in pivot table with the new values from the form
         $dish->ingredients()->sync($ingredientData);

@@ -1,10 +1,18 @@
 <template>
     <Layout>
-        <form @submit.prevent="submit" class="container mx-auto p-5">
+        <form v-if="form" @submit.prevent="submit" class="container mx-auto p-5">
             <h1 class="text-3xl font-semibold mb-12">Edit Dish</h1>
 
+
+            <pre class="text-xs bg-gray-100 p-2 rounded mb-6 text-black">
+                INGREDIENTS: {{ form.ingredients }}
+            </pre>
+            <pre class="text-xs bg-gray-100 p-2 rounded mb-6 text-black">
+                STEPS: {{ form.preparation_steps }}
+            </pre>
+
             <div class="max-w-xl">
-                <AInput v-model="form.name" name="name" label="Name" :error="form.errors?.name" />
+                <AInput v-model="form.name" name="name" label="Name" :error="form.errors?.name"/>
 
                 <AImageUpload
                     class="mb-4"
@@ -14,6 +22,8 @@
                     hint="Leave empty to keep existing image"
                     preview-size="200px"
                 />
+
+                {{ form?.errors?.image }}
 
                 <ATextArea
                     class="mb-4"
@@ -48,6 +58,8 @@
                     <APreparationStepEditor
                         v-for="(step, index) in form.preparation_steps"
                         :key="index"
+                        :modelValue="step"
+                        @update:modelValue="val => updateStep(index, val)"
                         v-model="form.preparation_steps[index]"
                         :isLast="index === form.preparation_steps.length - 1"
                         @add="addStep"
@@ -55,12 +67,16 @@
                     />
                 </div>
 
-                <AInput v-model="form.tips" name="tips" label="Tips" :error="form.errors?.tips" />
+                <AInput v-model="form.tips" name="tips" label="Tips" :error="form.errors?.tips"/>
 
                 <div class="flex justify-end gap-x-4 mt-6">
-                    <AButton class="bg-gray-200 text-blue-700 dark:bg-gray-200 dark:text-blue-700" :href="`/`">Cancel</AButton>
+                    <AButton
+                        class="bg-gray-200 text-blue-700 dark:bg-gray-200 dark:text-blue-700 dark:hover:bg-gray-300"
+                        :href="`/`">Cancel
+                    </AButton>
 
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 cursor-pointer">
+                    <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 cursor-pointer">
                         Save Changes
                     </button>
                 </div>
@@ -70,10 +86,8 @@
 </template>
 
 
-
-
 <script>
-import { useForm } from '@inertiajs/vue3';
+import {useForm} from '@inertiajs/vue3';
 import Layout from '../Layout.vue';
 import AInput from "../components/AInput.vue";
 import AImageUpload from "../components/AImageUpload.vue";
@@ -99,26 +113,36 @@ export default {
     },
     data() {
         return {
-            form: useForm({
-                name: this.dish.name ?? '',
-                description: this.dish.description ?? '',
-                image: null,
-                tips: this.dish.tips ?? '',
-                ingredients: (this.dish.ingredients ?? []).map(i => ({ // we take the id, amount and unit and assemble them into a new object to give to the form.
-                    id: i.id,
-                    amount: i.pivot?.amount ?? '',
-                    unit: i.pivot?.unit ?? 'g'
-                })),
-                preparation_steps: (this.dish.preparationSteps ?? []).map(s => ({
-                    instruction: s.instruction ?? '',
-                    image: null
-                }))
-            }),
-            ingredientOptions: this.ingredients.map(i => ({
-                label: i.name,
-                value: i.id
-            }))
+            form: null,
+            ingredientOptions: []
         };
+    },
+    mounted() {
+        console.log('DISH:', this.dish);
+
+        this.form = useForm({
+            name: this.dish.name ?? '',
+            description: this.dish.description ?? '',
+            image: null,
+            tips: this.dish.tips ?? '',
+            ingredients: (this.dish.ingredients ?? []).map(i => ({ // we take the id, amount and unit and assemble them into a new object to give to the form.
+                id: i.id,
+                amount: i.pivot?.amount ?? '',
+                unit: i.pivot?.unit ?? 'g'
+            })),
+            preparation_steps: (this.dish.preparation_steps ?? []).map(s => ({
+                instruction: s.instruction ?? '',
+                image_path: s.image_path ?? null,
+                image: null
+            }))
+        });
+
+        this.ingredientOptions = this.ingredients.map(i => ({
+            label: i.name,
+            value: i.id
+        }));
+        console.log('RAW dish:', this.dish);
+
     },
     methods: {
         submit() {
@@ -126,7 +150,10 @@ export default {
             this.form.put(`/dish/${this.dish.id}`);
         },
         addIngredient() {
-            this.form.ingredients.push({ id: null, amount: '', unit: 'g' });
+            this.form.ingredients.push({id: null, amount: '', unit: 'g'});
+        },
+        UpdateStep(index, value) {
+            this.form.preparation_steps.splice(index, 1, value);
         },
         removeIngredient(index) {
             this.form.ingredients.splice(index, 1);
@@ -135,7 +162,7 @@ export default {
             this.form.ingredients.splice(index, 1, value);
         },
         addStep() {
-            this.form.preparation_steps.push({ instruction: '', image: null });
+            this.form.preparation_steps.push({instruction: '', image: null});
         },
         removeStep(index) {
             this.form.preparation_steps.splice(index, 1);

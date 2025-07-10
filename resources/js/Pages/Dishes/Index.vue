@@ -50,7 +50,7 @@
             </div>
         </section>
 
-        <AiPopupBot :show="showPopup" @close="showPopup = false" />>
+        <AiPopupBot :show="showPopup" @close="showPopup = false" />
 
     </Layout>
 </template>
