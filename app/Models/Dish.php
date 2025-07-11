@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -25,7 +24,7 @@ class Dish extends Model
      */
     public function ingredients(): BelongsToMany
     {
-        return $this->belongsToMany(Ingredient::class);
+        return $this->belongsToMany(Ingredient::class)->withPivot('amount', 'unit');
     }
 
     /**
@@ -41,11 +40,13 @@ class Dish extends Model
         return $this->hasMany(PreparationStep::class);
     }
 
-    public function getImageUrlAttribute($value) {
-        return asset('storage/' . $value);
+    public function getImageUrlAttribute($value)
+    {
+        return asset('storage/'.$value);
     }
 
-    public function tips() {
+    public function tips()
+    {
         return $this->hasMany(Tip::class);
     }
 }

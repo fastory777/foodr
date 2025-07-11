@@ -49,7 +49,9 @@
                 <section id="ingredients" class="mb-8">
                     <h2 class="text-xl font-bold mb-2">Ingredients</h2>
                     <ul>
-                        <li v-for="ingredient in dish.ingredients" :key="ingredient.id">• {{ ingredient.name }}</li>
+                        <li v-for="ingredient in dish.ingredients" :key="ingredient.id">• {{ ingredient.name }} -
+                            {{ ingredient.amount }} {{ ingredient.unit }}
+                        </li>
                     </ul>
                 </section>
 
@@ -64,7 +66,7 @@
 
                             <img
                                 v-if="step.image_path"
-                                :src="`/${step.image_path}`"
+                                :src="step.image_path"
                                 alt="Step image"
                                 class="w-full max-w-md rounded shadow mt-3 mb-6"
                             />

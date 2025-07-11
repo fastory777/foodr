@@ -90,7 +90,7 @@ class DishController extends Controller
 
         // Pass dish data and all linked ingredients to the Vue component
         return Inertia::render('Dishes/Edit', [
-            'dish' => $dish,
+            'dish' => new DishResource($dish),
             'ingredients' => Ingredient::all(),
         ]);
     }
