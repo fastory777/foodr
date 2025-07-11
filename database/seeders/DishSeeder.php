@@ -84,6 +84,7 @@ class DishSeeder extends Seeder
 
         // Insert dish-ingredient relationships
         $dishIngredientData = [];
+
         foreach ($dishIngredientRelations as $dishName => $ingredientNames) {
             $dishId = DB::table('dishes')->where('name', $dishName)->value('id');
 
@@ -92,6 +93,8 @@ class DishSeeder extends Seeder
                     $dishIngredientData[] = [
                         'dish_id' => $dishId,
                         'ingredient_id' => $ingredients[$ingredientName],
+                        'amount' => fake()->numberBetween(1, 10),
+                        'unit' => fake()->randomElement(['g', 'kg', 'ml']),
                     ];
                 }
             }

@@ -21,7 +21,7 @@ class DishController extends Controller
         $dish->load('ingredients', 'preparationSteps');
 
         return Inertia::render('Dishes/Show', [
-            'dish' => (new DishResource($dish))->resolve(),
+            'dish' => new DishResource($dish)->resolve(),
         ]);
     }
 
@@ -78,12 +78,10 @@ class DishController extends Controller
 
     public function edit(Dish $dish)
     {
-        $dish->load([
-            'ingredients' => fn ($q) => $q->withPivot(['amount', 'unit']),
+        $dish->load(
+            'ingredients',
             'preparationSteps',
-        ]);
-
-        \Log::info('Loaded steps:', $dish->preparationSteps->toArray());
+        );
 
         // Pass dish data and all linked ingredients to the Vue component
         return Inertia::render('Dishes/Edit', [

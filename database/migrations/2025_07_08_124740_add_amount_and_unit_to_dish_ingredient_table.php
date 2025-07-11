@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('dish_ingredient', function (Blueprint $table) {
-            $table->float('amount')->after('ingredient_id');
-            $table->string('unit', 10)->after('amount');
+            $table->float('amount')->nullable()->after('ingredient_id');
+            $table->string('unit', 10)->nullable()->after('amount');
         });
     }
 

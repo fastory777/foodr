@@ -26,32 +26,26 @@ export default {
                 image: null,
                 image_url: this.dish.image ?? null,
                 tips: this.dish.tips ?? '',
-                ingredients: (this.dish.ingredients ?? []).map(i => ({
-                    id: i.id,
-                    amount: i.pivot?.amount ?? '',
-                    unit: i.pivot?.unit ?? 'g'
+                ingredients: (this.dish.ingredients ?? []).map(ingredient => ({
+                    id: ingredient.id,
+                    amount: ingredient.amount,
+                    unit: ingredient.unit,
                 })),
-                preparation_steps: (this.dish.preparation_steps ?? []).map((s, i) => ({
-                    instruction: s.instruction ?? '',
-                    image_path: s.image_path ?? null,
-                    image: null,
-                    duration_minutes: s.duration_minutes ?? 0,
-                    step_number: i + 1
+                preparation_steps: this.dish.preparation_steps.map(step => ({
+                    instruction: step.instruction,
+                    image: step.image,
+                    duration_minutes: step.duration_minutes,
                 }))
             }),
-            ingredientOptions: this.ingredients.map(i => ({
-                label: i.name,
-                value: i.id
+
+            ingredients: this.ingredients.map(ingredient => ({
+                label: ingredient.name,
+                value: ingredient.id
             }))
         };
     },
     methods: {
         submit() {
-            this.form.preparation_steps = this.form.preparation_steps.map((step, index) => ({
-                ...step,
-                step_number: index + 1
-            }));
-
             this.form.post(route('dishes.update', this.dish.id), {
                 preserveScroll: true,
                 forceFormData: true,
