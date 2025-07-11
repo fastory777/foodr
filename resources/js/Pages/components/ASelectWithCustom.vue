@@ -1,83 +1,96 @@
 <template>
-    <div class="flex flex-wrap gap-2 items-end mb-4">
-        <div class="flex-1 min-w-[150px]">
-            <label class="block text-sm text-gray-700 dark:text-gray-200 mb-1">Ingredient</label>
-            <Dropdown
-                v-model="localId"
-                :options="options"
-                optionLabel="label"
-                optionValue="value"
-                filter
-                placeholder="Select an ingredient"
-                class="w-full"
-                :pt="{
-                    root: 'border-2 rounded focus:ring-2 dark:border-[#5ddcff] border-[#3aaaff]',
-                    input: 'bg-white text-black dark:bg-[#121212] dark:text-white',
-                    panel: 'bg-white dark:bg-[#1e1e1e] border dark:border-[#444] shadow-md',
-                    filterInput: 'bg-white dark:bg-[#121212] text-black dark:text-white placeholder-gray-400 p-2 rounded',
-                    item: ({ context }) => ({
-                        class: [
-                            'px-3 py-2 cursor-pointer transition-colors',
-                            context.selected
-                              ? 'bg-[#3aaaff] text-white dark:bg-[#2d9cdb]'
-                              : 'hover:bg-[#e0f2ff] dark:hover:bg-[#2a2a2a] text-black dark:text-white'
-                        ]
-                    })
-                }"
-            />
+    <div class="mb-4">
+        <div class="flex gap-2 items-center">
+            <div class="flex-1">
+                <label class="block text-sm text-gray-700 dark:text-gray-200 h-6">
+                    Name
+                </label>
+                <Dropdown
+                    v-model="localId"
+                    :options="options"
+                    optionLabel="label"
+                    optionValue="value"
+                    filter
+                    placeholder="Select an ingredient"
+                    class="w-full"
+                    :pt="{
+                        root: {
+                            class: errors?.id ? '!border-red-500 !border' : '',
+                        },
+                    }"
+                />
+            </div>
 
+            <div class="flex flex-col w-18">
+                <label class="block text-sm text-gray-700 dark:text-gray-200 h-6">
+                    Amount
+                </label>
+                <input
+                    v-model="localAmount"
+                    type="number"
+                    min="0"
+                    step="any"
+                    placeholder="100"
+                    class="p-2 border rounded dark:bg-gray-700 dark:text-white text-right"
+                    :class="{'border border-red-500': errors?.amount}"
+                />
+            </div>
+
+            <div class="flex flex-col w-18">
+                <label class="block text-sm text-gray-700 dark:text-gray-200 h-6">
+                    Unit
+                </label>
+                <select v-model="localUnit"
+                        class="p-2 border rounded dark:bg-gray-700 dark:text-white"
+                        :class="{'border-red-500': errors?.unit}">
+                    <option value="g">g</option>
+                    <option value="kg">kg</option>
+                    <option value="ml">ml</option>
+                </select>
+            </div>
+
+            <div class="flex flex-col">
+                <div class="h-6"></div>
+                <Button
+                    severity="danger"
+                    @click="$emit('remove')"
+                >
+                    <X size="0.9em" color="white" />
+                </Button>
+            </div>
         </div>
 
-        <div class="w-28">
-            <label class="block text-sm text-gray-700 dark:text-gray-200 mb-1">Amount</label>
-            <input
-                v-model="localAmount"
-                type="number"
-                min="0"
-                step="any"
-                placeholder="100"
-                class="w-full p-2 border rounded dark:bg-gray-700 dark:text-white"
-            />
-        </div>
-
-        <div class="w-24">
-            <label class="block text-sm text-gray-700 dark:text-gray-200 mb-1">Unit</label>
-            <select v-model="localUnit" class="w-full p-2 border rounded dark:bg-gray-700 dark:text-white">
-                <option value="g">g</option>
-                <option value="kg">kg</option>
-                <option value="ml">ml</option>
-            </select>
-        </div>
-
-        <div class="w-10 h-10 mb-1">
-            <button
-                type="button"
-                @click="isLast ? $emit('add') : $emit('remove')"
-                class="w-full h-full flex items-center justify-center text-white"
-            >
-                <CirclePlus v-if="isLast" class="w-5 h-5 cursor-pointer" />
-                <CircleMinus v-else class="w-5 h-5 cursor-pointer" />
-            </button>
-        </div>
+        <ul class="text-red-500 text-xs py-1" v-if="errors">
+            <li v-if="errors?.id">
+                {{ errors.id }}
+            </li>
+            <li v-if="errors?.amount">
+                {{ errors.amount }}
+            </li>
+            <li v-if="errors?.unit">
+                {{ errors.unit }}
+            </li>
+        </ul>
     </div>
 </template>
 
 <script>
-import { CircleMinus, CirclePlus } from "lucide-vue-next";
+import { X } from 'lucide-vue-next';
 import Dropdown from 'primevue/dropdown';
 
 export default {
     name: 'ASelectWithCustom',
-    components: { CirclePlus, CircleMinus, Dropdown },
+    components: { X, Dropdown },
+    emits: ['update:modelValue', 'remove'],
     props: {
         modelValue: {
             type: Object,
             required: true
         },
-        isLast: Boolean,
+        errors: Object,
         options: Array, // [{ label: 'Sugar', value: 1 }, ...]
     },
-    emits: ['update:modelValue', 'add', 'remove'],
+
     computed: {
         localId: {
             get() {
@@ -104,6 +117,7 @@ export default {
             }
         }
     },
+
     methods: {
         update(field, value) {
             this.$emit('update:modelValue', {

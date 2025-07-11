@@ -2,7 +2,11 @@
     <Layout>
         <div class="container mx-auto p-5">
             <h1 class="text-3xl font-semibold mb-12">Edit Dish</h1>
-            <Form v-if="form" :form="form" :ingredientOptions="ingredientOptions" @submit="submit"/>
+
+            <Form :form="form"
+                  :dish="dish"
+                  :ingredients="ingredients"
+                  @submit="submit"/>
         </div>
     </Layout>
 </template>
@@ -17,7 +21,7 @@ import {route} from 'ziggy-js';
 export default {
     name: 'Edit',
     components: {Layout, Form},
-    props: {dish: Object, ingredients: Array},
+    props: ['dish', 'ingredients'],
     data() {
         return {
             form: useForm({

@@ -24,7 +24,7 @@
         <!-- When the user types, emit an event to update the parent component's v-model.
         This follows the Vue 3 convention: modelValue as a prop + update:modelValue as the event. -->
 
-        <p v-if="error" class="text-red-500 text-bold -mt-2.5">{{ error }}</p>
+        <p v-if="error" class="text-red-500 text-sm -mt-2.5">{{ error }}</p>
     </div>
 </template>
 
