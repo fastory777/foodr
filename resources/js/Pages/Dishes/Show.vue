@@ -17,10 +17,10 @@
                         DISH DETAILS</h2>
                     <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 dark:text-gray-100">
                         {{ dish.name }}</h1>
-                    <div v-if="dish.image_url"
+                    <div v-if="dish.image"
                          class="w-full max-w-4xl mx-auto mb-8 mt-6 rounded-lg overflow-hidden shadow-md">
                         <img
-                            :src="dish.image_url"
+                            :src="dish.image"
                             alt="Image of {{ dish.name }}"
                             class="w-full aspect-[3/2] object-cover"
                         />

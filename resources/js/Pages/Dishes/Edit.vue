@@ -24,7 +24,7 @@ export default {
                 name: this.dish.name ?? '',
                 description: this.dish.description ?? '',
                 image: null,
-                image_url: this.dish.image_url ?? null,
+                image_url: this.dish.image ?? null,
                 tips: this.dish.tips ?? '',
                 ingredients: (this.dish.ingredients ?? []).map(i => ({
                     id: i.id,

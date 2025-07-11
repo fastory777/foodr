@@ -8,15 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('', function (Blueprint $table) {
-
+        Schema::table('preparation_steps', function (Blueprint $table) {
+            $table->string('image')->change();
         });
     }
 
     public function down(): void
     {
-        Schema::table('', function (Blueprint $table) {
-            //
+        Schema::table('preparation_steps', function (Blueprint $table) {
+            $table->string('image_url')->change();
         });
     }
 };

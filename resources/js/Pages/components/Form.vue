@@ -6,16 +6,16 @@
             <AImageUpload
                 class="mb-4"
                 v-model="form.image"
-                :preview="form.image_url"
+                :preview="form.image"
                 name="image"
                 label="Upload Image"
                 hint="SVG, PNG or JPG (MAX. 10 MB)"
                 preview-size="200px"
             />
 
-            <div v-if="form.image === null && form.image_url" class="mb-4">
+            <div v-if="form.image === null && form.image" class="mb-4">
                 <p class="text-sm text-gray-600 dark:text-gray-300 mb-1">Current image:</p>
-                <img :src="form.image_url" alt="Current Dish Image" class="w-40 rounded border dark:border-gray-500"/>
+                <img :src="form.image" alt="Current Dish Image" class="w-40 rounded border dark:border-gray-500"/>
             </div>
 
             <ATextArea

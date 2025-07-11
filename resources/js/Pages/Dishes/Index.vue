@@ -3,8 +3,10 @@
         <section class="text-gray-600 body-font">
             <div class="container px-5 py-24 mx-auto">
                 <div class="flex flex-col text-center w-full mb-20">
-                    <h2 class="text-xs text-indigo-500 dark:text-blue-400 tracking-widest font-medium title-font mb-1">DISHES</h2>
-                    <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 dark:text-gray-100">View our selection of delish dishes</h1>
+                    <h2 class="text-xs text-indigo-500 dark:text-blue-400 tracking-widest font-medium title-font mb-1">
+                        DISHES</h2>
+                    <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 dark:text-gray-100">View our
+                        selection of delish dishes</h1>
                 </div>
 
                 <div class="flex flex-wrap justify-center -m-4">
@@ -12,15 +14,17 @@
                     <h1 class="text-3xl" v-if="loading">Loading...</h1>
 
                     <!-- fail message if loading is over, but dishes are not loaded -->
-                    <p v-if="!loading && dishes.length === 0" class="text-red-400 text-bold">Something went horribly horribly wrong.</p>
+                    <p v-if="!loading && dishes.length === 0" class="text-red-400 text-bold">Something went horribly
+                        horribly wrong.</p>
 
                     <div v-for="(dish, i) in dishes"
                          :key="i"
                          class="p-4 m-4 w-full sm:w-1/2 md:w-1/3 xl:w-1/4"> <!-- md:w-1/3 -->
-                        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 overflow-hidden transition-transform duration-300 transform hover:scale-105 hover:shadow-xl">
+                        <div
+                            class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 overflow-hidden transition-transform duration-300 transform hover:scale-105 hover:shadow-xl">
                             <img
-                                v-if="dish.image_url"
-                                :src="dish.image_url"
+                                v-if="dish.image"
+                                :src="dish.image"
                                 alt=""
                                 class="w-full h-48 object-cover"
                             />
@@ -50,14 +54,14 @@
             </div>
         </section>
 
-        <AiPopupBot :show="showPopup" @close="showPopup = false" />
+        <AiPopupBot :show="showPopup" @close="showPopup = false"/>
 
     </Layout>
 </template>
 
 <script>
 import Layout from '../Layout.vue';
-import { Link } from '@inertiajs/vue3'
+import {Link} from '@inertiajs/vue3'
 import AButton from "../components/AButton.vue";
 import AiPopupBot from "../components/AiPopupBot.vue"
 
@@ -93,8 +97,9 @@ export default {
                 this.loading = false;
             });
 
-        setTimeout(() => { this.showPopup = true; }, 3000)
-
+        setTimeout(() => {
+            this.showPopup = true;
+        }, 3000)
 
 
     }

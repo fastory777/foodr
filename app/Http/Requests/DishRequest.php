@@ -33,7 +33,7 @@ class DishRequest extends FormRequest
             'description' => 'required|min:3|max:1024',
 
             'image' => [
-                (bool) $dishId ? 'nullable' : 'required',
+                'required',
                 'image',
                 'mimes:jpeg,png,jpg,gif,svg',
                 'max:10240',
