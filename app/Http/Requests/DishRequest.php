@@ -56,4 +56,16 @@ class DishRequest extends FormRequest
             'tips' => 'nullable|string|min:3|max:1024',
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'ingredients.*.id' => 'ingredient',
+            'ingredients.*.unit' => 'ingredient unit',
+            'ingredients.*.amount' => 'ingredient amount',
+            'preparation_steps.*.instruction' => 'step instructions',
+            'preparation_steps.*.image' => 'step images',
+            'preparation_steps.*.duration_minutes' => 'step duration',
+        ];
+    }
 }
