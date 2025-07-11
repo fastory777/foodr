@@ -55,7 +55,7 @@ class DishController extends Controller
 
         // 4. Iterate over preparation steps within the $request and create a new step for each entry*
         foreach ($request->preparation_steps as $index => $step) {
-            $preparationStep = new PreparationStep::([
+            $preparationStep = new PreparationStep([
                 'instruction' => $step['instruction'],
                 'duration_minutes' => $step['duration_minutes'] ?? null,
                 'image' => $request->file("preparation_steps.$index.image")->store('steps', 'public'),
