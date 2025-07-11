@@ -5,6 +5,7 @@ import {resolvePageComponent} from 'laravel-vite-plugin/inertia-helpers';
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
 import Listbox from 'primevue/listbox';
+import Button from 'primevue/button';
 
 
 createInertiaApp({
@@ -19,6 +20,7 @@ createInertiaApp({
             });
 
         app.component('Listbox', Listbox);
+        app.component('Button', Button);
 
         app.mount(el);
     },

@@ -27,8 +27,15 @@
                 placeholder="Write about the dish here..."
             />
 
-            <div class="mb-4">
-                <label class="block font-medium text-gray-800 dark:text-white mb-2">Ingredients</label>
+            <div class="py-10 flex flex-col">
+                <h2 class="text-xl font-bold block py-3 text-gray-800 dark:text-white mb-2">
+                    Ingredients
+                </h2>
+
+                <span v-if="form.errors?.ingredients" class="text-red-500">
+                    {{ form.errors.ingredients }}
+                </span>
+
                 <ASelectWithCustom
                     v-for="(ingredient, index) in form.ingredients"
                     :key="index"

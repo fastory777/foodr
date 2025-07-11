@@ -68,4 +68,11 @@ class DishRequest extends FormRequest
             'preparation_steps.*.duration_minutes' => 'step duration',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'ingredients.required' => 'At least one ingredient is required.',
+        ];
+    }
 }

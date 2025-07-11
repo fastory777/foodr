@@ -32,7 +32,6 @@ class PreparationStepSeeder extends Seeder
             for ($i = 0; $i < count($steps); $i++) {
                 $preparationSteps[] = [
                     'dish_id' => $dish->id,
-                    'step_number' => $i + 1,
                     'instruction' => $steps[$i]['instruction'],
                     'duration_minutes' => $steps[$i]['duration_minutes'],
                     'created_at' => now(),
@@ -149,7 +148,7 @@ class PreparationStepSeeder extends Seeder
             ],
             [
                 'instruction' => 'Serve hot with freshly grated Parmesan cheese and chopped fresh basil on top.',
-                'duration_minutes' => null,
+                'duration_minutes' => 5,
             ],
         ];
 
@@ -195,7 +194,7 @@ class PreparationStepSeeder extends Seeder
             ],
             [
                 'instruction' => 'Serve immediately over steamed rice, garnished with sliced green onions.',
-                'duration_minutes' => null,
+                'duration_minutes' => 5,
             ],
         ];
 
@@ -237,7 +236,7 @@ class PreparationStepSeeder extends Seeder
             ],
             [
                 'instruction' => 'Serve immediately with lime wedges, hot sauce, and sour cream on the side.',
-                'duration_minutes' => null,
+                'duration_minutes' => 5,
             ],
         ];
 
@@ -287,7 +286,7 @@ class PreparationStepSeeder extends Seeder
             ],
             [
                 'instruction' => 'Serve hot over steamed rice, garnished with fresh cilantro and a squeeze of lime juice.',
-                'duration_minutes' => null,
+                'duration_minutes' => 5,
             ],
         ];
 
@@ -333,7 +332,7 @@ class PreparationStepSeeder extends Seeder
             ],
             [
                 'instruction' => 'Serve hot with maple syrup, fresh berries, or your favorite toppings.',
-                'duration_minutes' => null,
+                'duration_minutes' => 5,
             ],
         ];
 
@@ -433,7 +432,7 @@ class PreparationStepSeeder extends Seeder
             ],
             [
                 'instruction' => 'Serve hot with your favorite sides and garnishes.',
-                'duration_minutes' => null,
+                'duration_minutes' => 5,
             ],
         ];
 
