@@ -1,21 +1,30 @@
 <template>
     <form @submit.prevent="$emit('submit')">
         <div class="max-w-xl">
-            <AInput v-model="form.name" name="name" label="Name" :error="form.errors.name"/>
+            <AInput v-model="form.name"
+                    name="name"
+                    label="Name"
+                    :error="form.errors.name"/>
 
-            <AImageUpload
-                class="mb-4"
-                v-model="form.image"
-                :preview="form.image"
-                name="image"
-                label="Upload Image"
-                hint="SVG, PNG or JPG (MAX. 10 MB)"
-                preview-size="200px"
-            />
+            <div class="mb-4">
+                <AImageUpload
+                    v-model="form.image"
+                    :preview="form.image"
+                    name="image"
+                    label="Upload Image"
+                    hint="SVG, PNG or JPG (MAX. 10 MB)"
+                    preview-size="200px"
+                    :error="form.errors?.image"
+                />
+            </div>
 
-            <div v-if="form.image === null && form.image" class="mb-4">
-                <p class="text-sm text-gray-600 dark:text-gray-300 mb-1">Current image:</p>
-                <img :src="form.image" alt="Current Dish Image" class="w-40 rounded border dark:border-gray-500"/>
+            <div v-if="dish && dish.image" class="mb-4">
+                <p class="text-sm text-gray-600 dark:text-gray-300 mb-1">
+                    Current image:
+                </p>
+                <img :src="dish.image"
+                     alt="Current Dish Image"
+                     class="w-40 rounded border dark:border-gray-500"/>
             </div>
 
             <ATextArea
@@ -39,26 +48,45 @@
                 <ASelectWithCustom
                     v-for="(ingredient, index) in form.ingredients"
                     :key="index"
+                    :errors="{
+                        id: form.errors[`ingredients.${index}.id`],
+                        amount: form.errors[`ingredients.${index}.amount`],
+                        unit: form.errors[`ingredients.${index}.unit`],
+                    }"
                     :modelValue="ingredient"
-                    :options="ingredientOptions"
-                    :isLast="index === form.ingredients.length - 1"
+                    :options="ingredients"
                     @update:modelValue="updateIngredient(index, $event)"
-                    @add="addIngredient"
                     @remove="removeIngredient(index)"
                 />
+
+                <Button @click="addIngredient"
+                        outlined
+                        severity="success"
+                        class="mt-3"
+                        label="+ Add Ingredient"
+                        :pt="{ root: 'w-full', label: 'text-sm' }" />
             </div>
 
             <div class="mb-4">
-                <label class="block font-medium text-gray-800 dark:text-white mb-2">Preparation Steps</label>
+                <h2 class="text-xl font-bold block py-3 text-gray-800 dark:text-white mb-2">
+                    Preparation Steps
+                </h2>
+
                 <APreparationStepEditor
                     v-for="(step, index) in form.preparation_steps"
                     :key="index"
                     v-model="form.preparation_steps[index]"
-                    :isLast="index === form.preparation_steps.length - 1"
                     @add="addStep"
                     @remove="removeStep(index)"
                     @update:modelValue="val => updateStep(index, val)"
                 />
+
+                <Button @click="addStep"
+                        outlined
+                        severity="success"
+                        class="mt-3"
+                        label="+ Add Preparation Step"
+                        :pt="{ root: 'w-full', label: 'text-sm' }" />
             </div>
 
             <AInput
@@ -71,30 +99,31 @@
             <div class="flex py-5 gap-x-4 justify-end">
                 <AButton
                     class="bg-gray-200 text-indigo-500 dark:bg-gray-100 dark:text-indigo-500 dark:hover:bg-gray-200 dark:hover:text-indigo-600 focus:ring-indigo-500"
-                    :href="`/`"
+                    href="/"
                 >
                     Cancel
                 </AButton>
 
-                <button
+                <Button
+                    severity="contrast"
                     type="submit"
                     class="cursor-pointer inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-indigo-600 focus:ring-indigo-200 dark:bg-indigo-500 dark:hover:bg-indigo-600 dark:hover:text-gray-200 hover:bg-indigo-700"
                 >
                     Save Dish
-                </button>
+                </Button>
             </div>
         </div>
     </form>
 </template>
 
-
 <script>
-import AInput from "./AInput.vue";
-import AImageUpload from "./AImageUpload.vue";
-import ATextArea from "./ATextArea.vue";
-import ASelectWithCustom from "./ASelectWithCustom.vue";
-import APreparationStepEditor from "./APreparationStepEditor.vue";
-import AButton from "./AButton.vue";
+import AInput from './AInput.vue';
+import AImageUpload from './AImageUpload.vue';
+import ATextArea from './ATextArea.vue';
+import ASelectWithCustom from './ASelectWithCustom.vue';
+import APreparationStepEditor from './APreparationStepEditor.vue';
+import AButton from './AButton.vue';
+import { Plus } from 'lucide-vue-next';
 
 export default {
     name: 'Form',
@@ -104,12 +133,10 @@ export default {
         ATextArea,
         ASelectWithCustom,
         APreparationStepEditor,
-        AButton
+        AButton,
+        Plus,
     },
-    props: {
-        form: Object,
-        ingredientOptions: Array
-    },
+    props: ['dish', 'form', 'ingredients'],
     emits: ['submit'],
     methods: {
         addIngredient() {

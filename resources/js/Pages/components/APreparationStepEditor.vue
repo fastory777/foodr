@@ -1,6 +1,8 @@
 <template>
     <div
         class="w-full border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 mb-4 p-4 space-y-3">
+        <h3>Step {{ key }}</h3>
+
         <!-- Formatting panel -->
         <div class="flex gap-2 mb-2">
             <button @click.prevent="wrap('**')"
@@ -47,9 +49,9 @@
         </div>
 
         <!-- Existing image preview (for edit mode) -->
-        <div v-if="modelValue.image_path" class="mt-2">
+        <div v-if="modelValue.image" class="mt-2">
             <p class="text-sm text-gray-600 dark:text-gray-300 mb-1">Current image:</p>
-            <img :src="modelValue.image_path" class="w-40 rounded border dark:border-gray-500"/>
+            <img :src="modelValue.image" class="w-40 rounded border dark:border-gray-500"/>
         </div>
 
         <!-- Control Buttons -->
@@ -59,8 +61,7 @@
                 @click="isLast ? $emit('add') : $emit('remove')"
                 class="rounded-full text-white p-2"
             >
-                <CirclePlus v-if="isLast" class="w-6 h-6 cursor-pointer"/>
-                <CircleMinus v-else class="w-6 h-6 cursor-pointer"/>
+                <CircleMinus class="w-6 h-6 cursor-pointer"/>
             </button>
         </div>
     </div>
@@ -75,10 +76,11 @@ export default {
     components: {CirclePlus, CircleMinus, Bold, Signature, AImageUpload},
     props: {
         modelValue: Object,
-        isLast: Boolean,
+        key: Number,
     },
     emits: ['update:modelValue', 'add', 'remove'],
     methods: {
+        // Used for the markdown editor
         wrap(token) {
             const el = this.$refs.textAreaRef;
             if (!el) return;
@@ -105,6 +107,7 @@ export default {
             });
         }
     },
+
     computed: {
         localDuration: {
             get() {
