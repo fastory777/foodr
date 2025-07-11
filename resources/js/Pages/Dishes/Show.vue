@@ -1,9 +1,6 @@
 <template>
     <Layout>
         <section class="text-gray-600 body-font dark:text-gray-100">
-            <pre class="text-sm text-gray-400">
-{{ dish.preparation_steps }}
-</pre>
             <div class="container px-5 py-24 mx-auto">
                 <Link href="/" class="flex items-center text-gray-900 mb-4 md:mb-0">
                     <CornerUpLeft class="size-4 mr-1 text-gray-500 dark:text-gray-300"/>
