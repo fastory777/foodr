@@ -82,12 +82,12 @@
 
 
 <script>
-import AInput from "../components/AInput.vue";
-import AImageUpload from "../components/AImageUpload.vue";
-import ATextArea from "../components/ATextArea.vue";
-import ASelectWithCustom from "../components/ASelectWithCustom.vue";
-import APreparationStepEditor from "../components/APreparationStepEditor.vue";
-import AButton from "../components/AButton.vue";
+import AInput from "./AInput.vue";
+import AImageUpload from "./AImageUpload.vue";
+import ATextArea from "./ATextArea.vue";
+import ASelectWithCustom from "./ASelectWithCustom.vue";
+import APreparationStepEditor from "./APreparationStepEditor.vue";
+import AButton from "./AButton.vue";
 
 export default {
     name: 'Form',

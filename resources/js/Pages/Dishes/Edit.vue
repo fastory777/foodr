@@ -11,7 +11,7 @@
 <script>
 import Layout from "../Layout.vue";
 import {useForm} from "@inertiajs/vue3";
-import Form from "./Form.vue";
+import Form from "../components/Form.vue";
 import {route} from 'ziggy-js';
 
 export default {
@@ -52,10 +52,9 @@ export default {
                 step_number: index + 1
             }));
 
-            this.form.post(route('dish.update', this.dish.id), {
+            this.form.post(route('dishes.update', this.dish.id), {
                 preserveScroll: true,
                 forceFormData: true,
-                method: 'put', // When using file uploads with PUT/PATCH/DELETE methods, you must use POST with a _method spoof. This is because some browsers and servers do not support multipart requests with these methods.
                 onError: (errors) => {
                     console.error('Validation errors: ', errors);
                 }

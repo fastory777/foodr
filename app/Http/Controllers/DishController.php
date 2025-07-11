@@ -97,6 +97,7 @@ class DishController extends Controller
 
     public function update(Dish $dish, DishRequest $request)
     {
+
         // Validate data
         $data = $request->validated();
         // Update basic dish fields

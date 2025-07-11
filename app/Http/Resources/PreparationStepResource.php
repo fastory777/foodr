@@ -17,7 +17,7 @@ class PreparationStepResource extends JsonResource
         return [
             'step_number' => $this->step_number,
             'instruction' => $this->instruction,
-            'image_path' => $this->image_path ? asset('storage/'.$this->image_path) : null, // // converts a stored image path to a full public url. This ensures that the frontend receives a usable link
+            'image_path' => $this->image_path ? asset($this->image_path) : null, // // converts a stored image path to a full public url. This ensures that the frontend receives a usable link
             'duration_minutes' => $this->duration_minutes,
         ];
     }

@@ -11,7 +11,7 @@
 <script>
 import Layout from "../Layout.vue";
 import {useForm} from "@inertiajs/vue3";
-import Form from "./Form.vue";
+import Form from "../components/Form.vue";
 
 export default {
     name: 'Create',

@@ -14,12 +14,11 @@ class DishRequest extends FormRequest
 
     public function rules(): array
     {
-        $isUpdate = $this->isMethod('put');
-
-        $dishId = $this->route('dish')->id ?? $this->route('dish');
+        $dishId = $this->route('dish')->id ?? null;
 
         $nameUniqueRule = Rule::unique('dishes', 'name');
-        if ($isUpdate) {
+
+        if ((bool) $dishId) {
             $nameUniqueRule->ignore($dishId);
         }
 
@@ -34,7 +33,7 @@ class DishRequest extends FormRequest
             'description' => 'required|min:3|max:1024',
 
             'image' => [
-                $isUpdate ? 'nullable' : 'required',
+                (bool) $dishId ? 'nullable' : 'required',
                 'image',
                 'mimes:jpeg,png,jpg,gif,svg',
                 'max:10240',
@@ -48,7 +47,7 @@ class DishRequest extends FormRequest
             'preparation_steps' => 'required|array|min:1',
             'preparation_steps.*.instruction' => 'required|string|min:3|max:1024',
             'preparation_steps.*.image' => [
-                $isUpdate ? 'nullable' : 'required',
+                (bool) $dishId ? 'nullable' : 'required',
                 'image',
                 'mimes:jpeg,png,jpg,gif,svg',
                 'max:10240',
