@@ -1,11 +1,13 @@
 <template>
     <form @submit.prevent="$emit('submit')">
         <div class="max-w-xl">
+            <!-- Name Field -->
             <AInput v-model="form.name"
                     name="name"
                     label="Name"
                     :error="form.errors.name"/>
 
+            <!-- Image Field -->
             <div class="mb-4">
                 <AImageUpload
                     v-model="form.image"
@@ -27,6 +29,7 @@
                      class="w-40 rounded border dark:border-gray-500"/>
             </div>
 
+            <!-- Description Field -->
             <ATextArea
                 class="mb-4"
                 v-model="form.description"
@@ -36,28 +39,39 @@
                 placeholder="Write about the dish here..."
             />
 
+            <!-- Tips Field -->
+            <AInput
+                v-model="form.tips"
+                name="tips"
+                label="Tips"
+                :error="form.errors?.tips"
+            />
+
+            <!-- Ingredients Section -->
             <div class="py-10 flex flex-col">
                 <h2 class="text-xl font-bold block py-3 text-gray-800 dark:text-white mb-2">
                     Ingredients
                 </h2>
 
-                <span v-if="form.errors?.ingredients" class="text-red-500">
-                    {{ form.errors.ingredients }}
-                </span>
+                <div class="p-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                    <span v-if="form.errors?.ingredients" class="text-red-500">
+                        {{ form.errors.ingredients }}
+                    </span>
 
-                <ASelectWithCustom
-                    v-for="(ingredient, index) in form.ingredients"
-                    :key="index"
-                    :errors="{
-                        id: form.errors[`ingredients.${index}.id`],
-                        amount: form.errors[`ingredients.${index}.amount`],
-                        unit: form.errors[`ingredients.${index}.unit`],
-                    }"
-                    :modelValue="ingredient"
-                    :options="ingredients"
-                    @update:modelValue="updateIngredient(index, $event)"
-                    @remove="removeIngredient(index)"
-                />
+                    <ASelectWithCustom
+                        v-for="(ingredient, index) in form.ingredients"
+                        :key="index"
+                        :errors="{
+                            id: form.errors[`ingredients.${index}.id`],
+                            amount: form.errors[`ingredients.${index}.amount`],
+                            unit: form.errors[`ingredients.${index}.unit`],
+                        }"
+                        :modelValue="ingredient"
+                        :options="ingredients"
+                        @update:modelValue="updateIngredient(index, $event)"
+                        @remove="removeIngredient(index)"
+                    />
+                </div>
 
                 <Button @click="addIngredient"
                         outlined
@@ -67,16 +81,27 @@
                         :pt="{ root: 'w-full', label: 'text-sm' }" />
             </div>
 
+            <!-- Preparation Steps Section -->
             <div class="mb-4">
                 <h2 class="text-xl font-bold block py-3 text-gray-800 dark:text-white mb-2">
                     Preparation Steps
                 </h2>
 
+                <div v-if="form.errors?.preparation_steps"
+                      class="text-red-500 w-full border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 mb-4 p-4 space-y-3">
+                    {{ form.errors.preparation_steps }}
+                </div>
+
                 <APreparationStepEditor
                     v-for="(step, index) in form.preparation_steps"
                     :key="index"
+                    :index="index"
+                    :errors="{
+                        instruction: form.errors[`preparation_steps.${index}.instruction`],
+                        image: form.errors[`preparation_steps.${index}.image`],
+                        duration_minutes: form.errors[`preparation_steps.${index}.duration_minutes`],
+                    }"
                     v-model="form.preparation_steps[index]"
-                    @add="addStep"
                     @remove="removeStep(index)"
                     @update:modelValue="val => updateStep(index, val)"
                 />
@@ -89,16 +114,10 @@
                         :pt="{ root: 'w-full', label: 'text-sm' }" />
             </div>
 
-            <AInput
-                v-model="form.tips"
-                name="tips"
-                label="Tips"
-                :error="form.errors?.tips"
-            />
-
+            <!-- Buttons Section -->
             <div class="flex py-5 gap-x-4 justify-end">
                 <AButton
-                    class="bg-gray-200 text-indigo-500 dark:bg-gray-100 dark:text-indigo-500 dark:hover:bg-gray-200 dark:hover:text-indigo-600 focus:ring-indigo-500"
+                    color="red"
                     href="/"
                 >
                     Cancel
@@ -160,6 +179,3 @@ export default {
     }
 };
 </script>
-
-
-

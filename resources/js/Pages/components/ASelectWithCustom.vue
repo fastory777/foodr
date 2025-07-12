@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-4">
+    <div class="mb-4 last:mb-0">
         <div class="flex gap-2 items-center">
             <div class="flex-1">
                 <label class="block text-sm text-gray-700 dark:text-gray-200 h-6">

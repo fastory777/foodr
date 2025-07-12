@@ -18,7 +18,7 @@ class DishRequest extends FormRequest
 
         $nameUniqueRule = Rule::unique('dishes', 'name');
 
-        if ((bool) $dishId) {
+        if ($dishId) {
             $nameUniqueRule->ignore($dishId);
         }
 
@@ -33,7 +33,8 @@ class DishRequest extends FormRequest
             'description' => 'required|min:3|max:1024',
 
             'image' => [
-                'required',
+                $dishId ? 'nullable' : 'required',
+                'sometimes',
                 'image',
                 'mimes:jpeg,png,jpg,gif,svg',
                 'max:10240',
@@ -47,7 +48,7 @@ class DishRequest extends FormRequest
             'preparation_steps' => 'required|array|min:1',
             'preparation_steps.*.instruction' => 'required|string|min:3|max:1024',
             'preparation_steps.*.image' => [
-                (bool) $dishId ? 'nullable' : 'required',
+                $dishId ? 'nullable' : 'required',
                 'image',
                 'mimes:jpeg,png,jpg,gif,svg',
                 'max:10240',
@@ -73,6 +74,7 @@ class DishRequest extends FormRequest
     {
         return [
             'ingredients.required' => 'At least one ingredient is required.',
+            'preparation_steps.required' => 'At least one preparation step is required.',
         ];
     }
 }
