@@ -38,10 +38,17 @@ class DishController extends Controller
     {
         // Persist an image file to disk
         $request->merge([
-            'image' => $request->file('image')->store('dishes', 'public'),
-        ]);
+            'image' => 'storage/'.$request->file('image')->store('dishes', 'public'),
+        ]); // manually store the image and override the 'image' field in the request
 
-        $dish = Dish::create($request->all());
+        $imagePath = 'storage/'.$request->file('image')->store('dishes', 'public'); // used below for clarity
+
+        $dish = Dish::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'image' => $imagePath,
+            'tips' => $request->input('tips'),
+        ]);  // avoid using $request->all() to prevent storing temporary file objects
 
         // Attach each $ingredient to $dish
         foreach ($request->ingredients as $ingredient) {
@@ -54,22 +61,8 @@ class DishController extends Controller
         $data = $request->all();
 
         // 4. Iterate over preparation steps within the $request and create a new step for each entry*
-        foreach ($request->preparation_steps as $index => $step) {
-            $preparationStep = new PreparationStep([
-                'instruction' => $step['instruction'],
-                'duration_minutes' => $step['duration_minutes'] ?? null,
-                'image' => $request->file("preparation_steps.$index.image")->store('steps', 'public'),
-            ]);
 
-            // 5. Persist each preparation step's image to disk and store the path in $preparationStep
-            if ($request->hasFile("preparation_steps.$index.image")) {
-                $path = $request->file("preparation_steps.$index.image")->store('steps', 'public');
-                $preparationStep->image_path = $path;
-            }
-
-            $preparationStep->save();
-
-        }
+        $this->createPreparationSteps($request->preparation_steps, $dish, $request);
 
         return redirect()
             ->route('dishes.index')
@@ -92,8 +85,19 @@ class DishController extends Controller
 
     public function update(Dish $dish, DishRequest $request)
     {
+        $imagePath = $dish->image; // default to current image path
+
+        if ($request->hasFile('image')) {
+            $imagePath = 'storage/'.$request->file('image')->store('dishes', 'public'); // Store new image if uploaded
+        }
+
         // Update basic dish fields
-        $dish->update($request->all());
+        $dish->update([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'image' => $imagePath,
+            'tips' => $request->input('tips'),
+        ]); // Clear list the fields to prevent Laravel from accidentally saving Laravel file objects
 
         $data = $request->validated();
 
@@ -109,13 +113,35 @@ class DishController extends Controller
         $dish->ingredients()->sync($ingredientData);
 
         // Delete all old preparation steps before creating new ones
-        $dish->preparationSteps()->delete();
 
-        // Create each preparation step again from submitted data
-        foreach ($data['preparation_steps'] as $step) {
-            $dish->preparationSteps()->create($step);
-        }
+        $dish->preparationSteps()->delete();
+        $this->createPreparationSteps($request->preparation_steps, $dish, $request);
 
         return redirect()->route('dishes.index')->with('message', 'Dish updated successfully.');
+    }
+
+    private function createPreparationSteps(array $steps, Dish $dish, $request): void
+    {
+        foreach ($steps as $index => $step) {
+            $imagePath = null;
+
+            if ($request->hasFile("preparation_steps.$index.image")) {
+                $imagePath = $request->file("preparation_steps.$index.image")->store('steps', 'public');
+            } // manually store each step image and get the path
+
+            $preparationStep = new PreparationStep([
+                'dish_id' => $dish->id,
+                'instruction' => $step['instruction'],
+                'duration_minutes' => $step['duration_minutes'] ?? null,
+            ]);
+
+            if ($imagePath) {
+                $preparationStep->image = $imagePath; // only set image if uploaded
+            }
+
+            logger('Saved step', ['image' => $imagePath]);
+
+            $preparationStep->save();
+        }
     }
 }

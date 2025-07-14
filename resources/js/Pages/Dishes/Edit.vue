@@ -6,7 +6,8 @@
             <Form :form="form"
                   :dish="dish"
                   :ingredients="ingredients"
-                  @submit="submit"/>
+                  @submit="submit"
+            />
         </div>
     </Layout>
 </template>

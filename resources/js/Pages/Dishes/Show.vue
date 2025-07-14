@@ -62,8 +62,8 @@
                             </p>
 
                             <img
-                                v-if="step.image_path"
-                                :src="step.image_path"
+                                v-if="step.image"
+                                :src="step.image"
                                 alt="Step image"
                                 class="w-full max-w-md rounded shadow mt-3 mb-6"
                             />
@@ -103,6 +103,7 @@ import AiPopupBot from "../components/AiPopupBot.vue"
 import {onMounted, onUnmounted} from 'vue'
 import {Utensils, Pencil, CornerUpLeft} from "lucide-vue-next";
 import AButton from "../components/AButton.vue";
+
 
 export default {
     components: {

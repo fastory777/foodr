@@ -78,7 +78,7 @@
                         severity="success"
                         class="mt-3"
                         label="+ Add Ingredient"
-                        :pt="{ root: 'w-full', label: 'text-sm' }" />
+                        :pt="{ root: 'w-full', label: 'text-sm' }"/>
             </div>
 
             <!-- Preparation Steps Section -->
@@ -88,7 +88,7 @@
                 </h2>
 
                 <div v-if="form.errors?.preparation_steps"
-                      class="text-red-500 w-full border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 mb-4 p-4 space-y-3">
+                     class="text-red-500 w-full border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 mb-4 p-4 space-y-3">
                     {{ form.errors.preparation_steps }}
                 </div>
 
@@ -111,7 +111,7 @@
                         severity="success"
                         class="mt-3"
                         label="+ Add Preparation Step"
-                        :pt="{ root: 'w-full', label: 'text-sm' }" />
+                        :pt="{ root: 'w-full', label: 'text-sm' }"/>
             </div>
 
             <!-- Buttons Section -->
@@ -142,7 +142,7 @@ import ATextArea from './ATextArea.vue';
 import ASelectWithCustom from './ASelectWithCustom.vue';
 import APreparationStepEditor from './APreparationStepEditor.vue';
 import AButton from './AButton.vue';
-import { Plus } from 'lucide-vue-next';
+import {Plus} from 'lucide-vue-next';
 
 export default {
     name: 'Form',
@@ -176,6 +176,9 @@ export default {
         updateStep(index, value) {
             this.form.preparation_steps.splice(index, 1, value);
         }
+    },
+    mounted() {
+        console.log('INGREDIENTS:', this.ingredients);
     }
 };
 </script>

@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         Schema::table('dishes', function (Blueprint $table) {
@@ -14,7 +15,7 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::table('meal_id_nullable', function (Blueprint $table) {
+        Schema::table('dishes', function (Blueprint $table) {
             $table->unsignedBigInteger('meal_id')->nullable(false)->change();
         });
     }

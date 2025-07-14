@@ -2,7 +2,11 @@
     <Layout>
         <div class="container mx-auto p-5">
             <h1 class="text-3xl font-semibold mb-12">Create a new Dish</h1>
-            <Form :form="form" :ingredientOptions="ingredientOptions" @submit="submit"/>
+            <Form
+                :form="form"
+                :ingredients="ingredientOptions"
+                @submit="submit"
+            />
         </div>
     </Layout>
 </template>
