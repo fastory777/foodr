@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ImageOrRetain;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -32,13 +33,7 @@ class DishRequest extends FormRequest
 
             'description' => 'required|min:3|max:1024',
 
-            'image' => [
-                $dishId ? 'nullable' : 'required',
-                'sometimes',
-                'image',
-                'mimes:jpeg,png,jpg,gif,svg',
-                'max:10240',
-            ],
+            'image' => ['nullable', new ImageOrRetain],
 
             'ingredients' => 'required|array|min:1',
             'ingredients.*.id' => 'required|integer|exists:ingredients,id',
@@ -47,12 +42,7 @@ class DishRequest extends FormRequest
 
             'preparation_steps' => 'required|array|min:1',
             'preparation_steps.*.instruction' => 'required|string|min:3|max:1024',
-            'preparation_steps.*.image' => [
-                $dishId ? 'nullable' : 'required',
-                'image',
-                'mimes:jpeg,png,jpg,gif,svg',
-                'max:10240',
-            ],
+            'preparation_steps.*.image' => ['nullable', new ImageOrRetain],
             'preparation_steps.*.duration_minutes' => 'required|integer|min:1',
             'tips' => 'nullable|string|min:3|max:1024',
         ];

@@ -40,7 +40,6 @@ class DishController extends Controller
         $request->merge([
             'image' => 'storage/'.$request->file('image')->store('dishes', 'public'),
         ]); // manually store the image and override the 'image' field in the request
-
         $imagePath = 'storage/'.$request->file('image')->store('dishes', 'public'); // used below for clarity
 
         $dish = Dish::create([

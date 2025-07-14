@@ -28,8 +28,7 @@ export default {
             form: useForm({
                 name: this.dish.name ?? '',
                 description: this.dish.description ?? '',
-                image: null,
-                image_url: this.dish.image ?? null,
+                image: this.dish.image ?? null, // it needs to be cleared if it will be changed in the frontend
                 tips: this.dish.tips ?? '',
                 ingredients: (this.dish.ingredients ?? []).map(ingredient => ({
                     id: ingredient.id,
@@ -38,7 +37,7 @@ export default {
                 })),
                 preparation_steps: this.dish.preparation_steps.map(step => ({
                     instruction: step.instruction,
-                    image: step.image,
+                    image: step.image ?? null, // it needs to be cleared if it will be changed in the frontend
                     duration_minutes: step.duration_minutes,
                 }))
             }),

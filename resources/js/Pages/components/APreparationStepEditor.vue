@@ -10,7 +10,7 @@
                 size="small"
                 @click="$emit('remove')"
             >
-                <X size=".8rem" />
+                <X size=".8rem"/>
                 Remove
             </Button>
         </h3>
@@ -72,12 +72,6 @@
                 :error="errors?.image"
             />
         </div>
-
-        <!-- Existing image preview (for edit mode) -->
-        <div v-if="modelValue.image" class="mt-2">
-            <p class="text-sm text-gray-600 dark:text-gray-300 mb-1">Current image:</p>
-            <img :src="modelValue.image" class="w-40 rounded border dark:border-gray-500"/>
-        </div>
     </div>
 </template>
 
@@ -87,7 +81,7 @@ import AImageUpload from './AImageUpload.vue';
 
 export default {
     name: 'APreparationStepEditor',
-    components: { X, Bold, Signature, AImageUpload},
+    components: {X, Bold, Signature, AImageUpload},
     props: {
         modelValue: Object,
         index: Number,

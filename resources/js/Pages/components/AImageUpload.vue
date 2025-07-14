@@ -81,6 +81,8 @@ export default {
             handler(val) {
                 if (val instanceof File) {
                     this.preview = URL.createObjectURL(val);
+                } else if (typeof val === 'string') {
+                    this.preview = val;
                 } else {
                     this.preview = null;
                 }

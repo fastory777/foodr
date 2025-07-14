@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="$emit('submit')">
+    <form @submit.prevent="submit">
         <div class="max-w-xl">
             <!-- Name Field -->
             <AInput v-model="form.name"
@@ -18,15 +18,6 @@
                     preview-size="200px"
                     :error="form.errors?.image"
                 />
-            </div>
-
-            <div v-if="dish && dish.image" class="mb-4">
-                <p class="text-sm text-gray-600 dark:text-gray-300 mb-1">
-                    Current image:
-                </p>
-                <img :src="dish.image"
-                     alt="Current Dish Image"
-                     class="w-40 rounded border dark:border-gray-500"/>
             </div>
 
             <!-- Description Field -->
@@ -175,10 +166,46 @@ export default {
         },
         updateStep(index, value) {
             this.form.preparation_steps.splice(index, 1, value);
-        }
+        },
+        submit() {
+            // if the image is a string but not a path from storage (blob/preview), clear
+            if (typeof this.form.image === 'string' && this.form.image.startsWith('storage/')) {
+                this.form.image = null;
+            }
+
+            // clear each step image if it's a string pointing to already stored file
+            this.form.preparation_steps = this.form.preparation_steps.map((step) => {
+                if (typeof step.image === 'string' && step.image.startsWith('storage/')) {
+                    return {...step, image: null};
+                }
+                return step;
+            });
+
+            // if anything but string, force it to null
+            if (typeof this.form.image === 'string' && !this.form.image.startsWith('storage/')) {
+                this.form.image = null;
+            }
+
+            this.form.preparation_steps = this.form.preparation_steps.map(step => {
+                const image = step.image;
+                /*               if (typeof image === 'string' && !image.startsWith('storage/')) {
+                                   return {...step, image: null};
+                } */
+                return step;
+            });
+
+            this.form.post(route('dishes.update', this.dish.id), {
+                preserveScroll: true,
+                forceFormData: true,
+                onError: (errors) => {
+                    console.error('Validation errors: ', errors);
+                }
+            });
+        },
     },
     mounted() {
         console.log('INGREDIENTS:', this.ingredients);
-    }
-};
+    },
+}
 </script>
+
