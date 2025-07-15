@@ -80,14 +80,22 @@
 
 
                 <div class="flex mt-8">
-                    <AButton :href="`/`" class="mr-2">
-                        Back to dishes
+                    <AButton :href="`/`">
+                        Back to Dishes
                     </AButton>
 
-                    <AButton :href="`/dish/${dish.id}/edit`">
+                    <AButton :href="`/dish/${dish.id}/edit`" class="mx-2">
                         <Pencil class="size-4 mr-1"/>
                         Edit Dish
                     </AButton>
+
+                    <button
+                        @click="deleteDish(dish.id)"
+                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-red-600 focus:ring-red-100 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-700 hover:bg-red-700"
+                    >
+                        Delete Dish
+                    </button>
+
                 </div>
 
                 <AiPopupBot :show="showPopup" @close="showPopup = false"/>
@@ -103,6 +111,7 @@ import AiPopupBot from "../components/AiPopupBot.vue"
 import {onMounted, onUnmounted} from 'vue'
 import {Utensils, Pencil, CornerUpLeft} from "lucide-vue-next";
 import AButton from "../components/AButton.vue";
+import {router} from "@inertiajs/vue3";
 
 
 export default {
@@ -124,6 +133,17 @@ export default {
         dish: {
             type: Object,
             required: true
+        }
+    },
+    methods: {
+        deleteDish(id) {
+            if (confirm("Are you sure?")) {
+                router.delete(route('dishes.destroy', id), {
+                    onSuccess: () => {
+                        this.$inertia.visit('/')
+                    }
+                })
+            }
         }
     },
     setup() {

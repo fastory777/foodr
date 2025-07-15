@@ -7,6 +7,7 @@ use App\Http\Resources\DishResource;
 use App\Models\Dish;
 use App\Models\Ingredient;
 use App\Models\PreparationStep;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class DishController extends Controller
@@ -142,5 +143,24 @@ class DishController extends Controller
 
             $preparationStep->save();
         }
+    }
+
+    public function destroy(Dish $dish)
+    {
+        // delete the main image
+        Storage::disk('public')->delete(str_replace('storage/', '', $dish->image));
+
+        // delete the images from the preparation steps
+        foreach ($dish->preparationSteps as $step) {
+            if ($step->image) {
+                Storage::disk('public')->delete($step->image);
+            }
+        }
+
+        $dish->preparationSteps()->delete();
+        $dish->ingredients()->detach();
+        $dish->delete();
+
+        return redirect()->route('dishes.index')->with('message', 'Dish deleted successfully.');
     }
 }

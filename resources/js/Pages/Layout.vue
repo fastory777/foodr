@@ -1,10 +1,12 @@
 <template>
+    <ConfirmDialog/>
     <div class="flex flex-col body-font h-screen">
         <header class="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900">
             <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-                <Link href="/" class="flex title-font font-medium items-center text-gray-900 dark:text-white mb-4 md:mb-0">
+                <Link href="/"
+                      class="flex title-font font-medium items-center text-gray-900 dark:text-white mb-4 md:mb-0">
                     <div class="rounded-full bg-indigo-500 p-2 text-white">
-                        <Utensils />
+                        <Utensils/>
                     </div>
                     <span class="ml-3 text-2xl brand-name">Foodr</span>
                 </Link>
@@ -114,8 +116,9 @@
 </template>
 
 <script>
-import { Utensils, SunMedium, Moon } from 'lucide-vue-next';
-import { Link } from '@inertiajs/vue3';
+import {Utensils, SunMedium, Moon} from 'lucide-vue-next';
+import {Link} from '@inertiajs/vue3';
+import ConfirmDialog from "primevue/confirmdialog";
 
 export default {
     components: {

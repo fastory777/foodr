@@ -8,6 +8,7 @@ Route::get('dish/create', [DishController::class, 'create'])->name('dishes.creat
 Route::get('dish/{dish}', [DishController::class, 'show'])->name('dishes.show');
 Route::post('dish', [DishController::class, 'store'])->name('dishes.store');
 Route::get('dish/{dish}/edit', [DishController::class, 'edit'])->name('dishes.edit');
+Route::delete('dish/{dish}', [DishController::class, 'destroy'])->name('dishes.destroy');
 
 // Route::resource('dishes', DishController::class)->except('update');
 // Route::post('dish/{dish}', [DishController::class, 'update'])->name('dish.update');
