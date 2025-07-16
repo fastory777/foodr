@@ -1,10 +1,15 @@
 <template>
     <section class="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased">
-        <div class="px-0 md:px-6 lg:px-0">
+        <div class="max-w-xl">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-lg lg:text-2xl font-bold text-gray 900 dark:text-white">
                     Comments ({{ comments ? comments.length : 0 }})
                 </h2>
+
+                <button @click="loadComments">
+                    <refresh-ccw class="w-6 h-6 text-gray-500 dark:text-gray-300 cursor-pointer"/>
+                </button>
+
             </div>
 
             <form class="mb-6" @submit.prevent="submitComment">
@@ -63,6 +68,30 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400">
                             {{ formatDate(comment.created_at) }}
                         </p>
+                        <div class="relative">
+                            <button @click="toggleMenu(comment.id)"
+                                    class="cursor-pointer">
+                                <EllipsisVertical class="w-5 h-5 text-gray-500 dark:text-gray-300"/>
+                            </button>
+
+                            <div
+                                v-if="openMenuId === comment.id"
+                                class="absolute right-0 mt-2 w-32 bg-white dark:bg-gray-800 border rounded shadow z-10"
+                            >
+                                <button
+                                    @click="editComment(comment)"
+                                    class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    @click="deleteComment(comment.id)"
+                                    class="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </footer>
                 <p class="text-gray-500 dark:text-gray-400">{{ comment.content }}</p>
@@ -73,12 +102,17 @@
 
 <script>
 import axios from 'axios'
+import {RefreshCcw, EllipsisVertical} from "lucide-vue-next";
 
 export default {
+    components: {
+        RefreshCcw,
+        EllipsisVertical,
+    },
     name: 'DishComments',
     props: {
-        dishId: {
-            type: Number,
+        dish: {
+            type: Object,
             required: true,
         }
     },
@@ -87,18 +121,19 @@ export default {
             comments: [],
             loading: true,
             form: {
-                dish_id: this.dishId,
+                dish_id: this.dish.id,
                 author_name: '',
                 content: '',
             },
             errors: {},
+            openMenuId: null,
         }
     },
     methods: {
         async loadComments() {
             this.loading = true
             try {
-                const response = await axios.get(`/api/comments?dish_id=${this.dishId}`)
+                const response = await axios.get(`/api/comments?dish_id=${this.dish.id}`)
                 this.comments = response.data.data ?? response.data
             } catch (error) {
                 console.error('Loading comments failed', error)
@@ -121,8 +156,26 @@ export default {
                 }
             }
         },
+        async deleteComment(id) {
+            if (!confirm('Are you sure you want to delete this comment?')) return
+            try {
+                await axios.delete(`/api/comments/${id}`)
+                this.comments = this.comments.filter(comment => comment.id !== id)
+            } catch (error) {
+                console.error('Deleting comment failed', error)
+            }
+        },
         formatDate(date) {
             return new Date(date).toLocaleDateString()
+        },
+        toggleMenu(id) {
+            this.openMenuId = this.openMenuId === id ? null : id
+        },
+        closeMenu(id) {
+            if (this.openMenuId === id) this.openMenuId = null
+        },
+        editComment(comment) {
+            alert('Edit: ' + comment.id)
         }
     },
     mounted() {

@@ -91,13 +91,13 @@
 
                     <button
                         @click="deleteDish(dish.id)"
-                        class="cursor-pointer inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-red-600 focus:ring-red-100 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-700 hover:bg-red-700"
-                    >
+                        class="cursor-pointer inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-red-600 focus:ring-red-100 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-700 hover:bg-red-700">
+                        <Trash2 class="size-4 mr-1"/>
                         Delete Dish
                     </button>
                 </div>
 
-                <AComments :dish-id="dish.id"/>
+                <AComments :dish="dish"/>
 
                 <AiPopupBot :show="showPopup" @close="showPopup = false"/>
             </div>
@@ -110,7 +110,7 @@ import Layout from '../Layout.vue';
 import {Link} from '@inertiajs/vue3';
 import AiPopupBot from "../components/AiPopupBot.vue"
 import {onMounted, onUnmounted} from 'vue'
-import {Utensils, Pencil, CornerUpLeft} from "lucide-vue-next";
+import {Utensils, Pencil, CornerUpLeft, Trash2} from "lucide-vue-next";
 import AButton from "../components/AButton.vue";
 import AComments from "../components/AComments.vue";
 import {router} from "@inertiajs/vue3";
@@ -123,6 +123,7 @@ export default {
         Utensils,
         Pencil,
         CornerUpLeft,
+        Trash2,
         Layout,
         Link,
         AiPopupBot,

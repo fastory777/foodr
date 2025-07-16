@@ -7,3 +7,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('dishes', [DishController::class, 'index']);
 Route::get('comments', [CommentsController::class, 'index']);
 Route::post('comments', [CommentsController::class, 'store']);
+Route::delete('comments/{id}', [CommentsController::class, 'destroy']);
