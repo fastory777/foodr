@@ -5,11 +5,6 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Database\Seeders\IngredientSeeder;
-use Database\Seeders\DishSeeder;
-use Database\Seeders\MealSeeder;
-use Database\Seeders\TodoListSeeder;
-use Database\Seeders\TodoItemSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -33,6 +28,7 @@ class DatabaseSeeder extends Seeder
             TodoListSeeder::class,
             TodoItemSeeder::class,
             PreparationStepSeeder::class,
+            CommentSeeder::class,
         ]);
     }
 }

@@ -91,12 +91,13 @@
 
                     <button
                         @click="deleteDish(dish.id)"
-                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-red-600 focus:ring-red-100 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-700 hover:bg-red-700"
+                        class="cursor-pointer inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-red-600 focus:ring-red-100 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-700 hover:bg-red-700"
                     >
                         Delete Dish
                     </button>
-
                 </div>
+
+                <AComments :dish-id="dish.id"/>
 
                 <AiPopupBot :show="showPopup" @close="showPopup = false"/>
             </div>
@@ -111,12 +112,14 @@ import AiPopupBot from "../components/AiPopupBot.vue"
 import {onMounted, onUnmounted} from 'vue'
 import {Utensils, Pencil, CornerUpLeft} from "lucide-vue-next";
 import AButton from "../components/AButton.vue";
+import AComments from "../components/AComments.vue";
 import {router} from "@inertiajs/vue3";
 
 
 export default {
     components: {
         AButton,
+        AComments,
         Utensils,
         Pencil,
         CornerUpLeft,
