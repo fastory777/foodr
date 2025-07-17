@@ -56,7 +56,7 @@
                 class="p-6 mb-3 text-base bg-white rounded-lg dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700"
             >
                 <footer class="flex justify-between items-center mb-2">
-                    <div class="flex items-center">
+                    <div>
                         <p class="inline-flex items-center mr-3 text-sm font-semibold text-gray-900 dark:text-white">
                             <img
                                 class="mr-2 w-6 h-6 rounded-full"
@@ -68,33 +68,33 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400">
                             {{ formatDate(comment.created_at) }}
                         </p>
-                        <div class="relative">
-                            <button @click="toggleMenu(comment.id)"
-                                    class="cursor-pointer">
-                                <EllipsisVertical class="w-5 h-5 text-gray-500 dark:text-gray-300"/>
-                            </button>
+                    </div>
+                    <div class="relative">
+                        <button @click="toggleMenu(comment.id)"
+                                class="cursor-pointer">
+                            <EllipsisVertical class="w-5 h-5 text-gray-500 dark:text-gray-300"/>
+                        </button>
 
-                            <div
-                                v-if="openMenuId === comment.id"
-                                class="absolute right-0 mt-2 w-32 bg-white dark:bg-gray-800 border rounded shadow z-10"
+                        <div
+                            v-if="openMenuId === comment.id"
+                            class="absolute right-0 mt-2 w-32 bg-white dark:bg-gray-800 border rounded shadow z-10"
+                        >
+                            <button
+                                @click="editComment(comment)"
+                                class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
                             >
-                                <button
-                                    @click="editComment(comment)"
-                                    class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    @click="deleteComment(comment.id)"
-                                    class="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700"
-                                >
-                                    Delete
-                                </button>
-                            </div>
+                                Edit
+                            </button>
+                            <button
+                                @click="deleteComment(comment.id)"
+                                class="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700"
+                            >
+                                Delete
+                            </button>
                         </div>
                     </div>
                 </footer>
-                <p class="text-gray-500 dark:text-gray-400">{{ comment.content }}</p>
+                <p class="text-gray-500 dark:text-gray-200">{{ comment.content }}</p>
             </article>
         </div>
     </section>
